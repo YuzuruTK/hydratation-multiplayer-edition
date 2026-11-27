@@ -1,4 +1,4 @@
-# Hydratation
+# Hydration
 
 Aplicativo de hidratação com registro rápido de consumo, metas diárias e ranking entre participantes.
 
