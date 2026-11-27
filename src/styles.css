@@ -325,3 +325,15 @@ h1, h2, h3, strong,
 .hydration-vessel--ocean .hydration-vessel-art{animation:vessel-float 5s ease-in-out infinite}
 .hydration-vessel--midnight .hydration-vessel-art{filter:drop-shadow(0 13px 18px var(--color-primary-shadow-soft))}
 @keyframes vessel-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+
+/* Theme vessel variants: drop (Ocean), rocks tumbler (Midnight), potion (Ocean Green). */
+.hydration-vessel--midnight .vessel-outline{fill:var(--color-glass-surface);stroke:var(--color-glass-edge);stroke-width:4;stroke-linejoin:round}
+.hydration-vessel--midnight .vessel-rim{fill:none;stroke:var(--color-glass-edge-strong);stroke-width:4;stroke-linecap:round}
+.drink-garnish{fill:none;stroke:var(--color-warning);stroke-width:3;stroke-linecap:round}
+.hydration-vessel--midnight .drink-garnish:last-of-type{fill:var(--color-warning-soft);stroke:var(--color-warning);stroke-width:2}
+.hydration-vessel--ocean-green .vessel-outline{fill:var(--color-glass-surface);stroke:var(--color-glass-edge);stroke-width:4;stroke-linejoin:round}
+.potion-neck{fill:none;stroke:var(--color-glass-edge-strong);stroke-width:2;stroke-linejoin:round;pointer-events:none}
+.potion-cork{fill:#a8794f;stroke:#d5b28a;stroke-width:2}
+.potion-highlight{fill:none;stroke:var(--color-glass-edge-strong);stroke-width:5;stroke-linecap:round;opacity:.7}
+.potion-bubble{fill:var(--color-glass-highlight);stroke:var(--color-glass-edge-soft);stroke-width:1.5}
+.hydration-vessel--ocean-green .hydration-vessel-art{animation:vessel-float 4.5s ease-in-out infinite}
