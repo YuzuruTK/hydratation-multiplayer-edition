@@ -311,3 +311,17 @@ h1, h2, h3, strong,
 .activity-edit{display:inline-flex;width:28px;height:28px;flex:0 0 auto;align-items:center;justify-content:center;color:var(--color-text-muted);background:transparent;border:0;border-radius:var(--radius-sm);cursor:pointer;transition:color var(--duration-fast),background var(--duration-fast)}
 .activity-edit:hover{color:var(--color-primary);background:var(--color-primary-soft)}
 @media(max-width:600px){.hourly-chart-card{padding:17px 13px 12px}.hourly-chart{gap:3px;height:104px}.hourly-chart-summary>strong{font-size:21px}.hourly-chart-peak{max-width:145px;font-size:10px}.hourly-chart-label{font-size:8px}}
+
+
+/* Theme-specific hydration vessel: drop in Ocean, cocktail glass in Midnight. */
+.hydration-vessel{width:140px;height:200px;display:flex;align-items:center;justify-content:center;position:relative;z-index:2}
+.hydration-vessel-art{display:block;width:140px;height:200px;overflow:visible;filter:drop-shadow(0 12px 13px var(--color-primary-shadow-soft))}
+.vessel-outline{fill:var(--color-glass-surface);stroke:var(--color-glass-edge);stroke-width:4;stroke-linejoin:round}
+.vessel-water{transition:y .8s cubic-bezier(.2,.8,.2,1),height .8s cubic-bezier(.2,.8,.2,1)}
+.vessel-water-shine{fill:none;stroke:var(--color-glass-highlight);stroke-width:4;stroke-linecap:round}
+.vessel-highlight{fill:none;stroke:var(--color-glass-edge-strong);stroke-width:5;stroke-linecap:round;opacity:.72}
+.vessel-stem{fill:none;stroke:var(--color-glass-edge);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.vessel-shadow{fill:var(--color-primary-shadow-soft)}
+.hydration-vessel--ocean .hydration-vessel-art{animation:vessel-float 5s ease-in-out infinite}
+.hydration-vessel--midnight .hydration-vessel-art{filter:drop-shadow(0 13px 18px var(--color-primary-shadow-soft))}
+@keyframes vessel-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
