@@ -1,0 +1,37 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "hydration-multiplayer-edition",
+  "main": "./worker/index.ts",
+  "compatibility_date": "2026-11-27",
+  "assets": {
+    "directory": "./dist/",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": [
+      "/api/*"
+    ]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "hydratation-multiplayer-edition",
+      "database_id": "2d015ed2-47f2-428b-8a8a-5f7ec43b1106",
+      "migrations_dir": "./migrations"
+    }
+  ],
+  "vars": {
+    "APP_TIME_ZONE": "America/Sao_Paulo"
+  },
+  "previews": {
+    "d1_databases": [
+      {
+        "binding": "DB",
+        "database_name": "hydratation-multiplayer-edition",
+        "database_id": "2d015ed2-47f2-428b-8a8a-5f7ec43b1106"
+      }
+    ],
+    "vars": {
+      "APP_TIME_ZONE": "America/Sao_Paulo"
+    }
+  }
+}

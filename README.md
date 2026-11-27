@@ -4,13 +4,12 @@ Aplicativo de hidratação com registro rápido de consumo, metas diárias e ran
 
 ## Estado atual
 
-Este repositório começa pelo protótipo frontend. As três experiências principais já estão disponíveis:
+O projeto está dividido em etapas:
 
-- **Login e cadastro:** fluxo demonstrativo para entrar ou criar um perfil local.
-- **Minha hidratação:** copo animado, progresso diário, meta ajustável, registros de consumo e recipientes personalizados.
-- **Ranking:** classificação demonstrativa com filtros diário, semanal e mensal.
+- **Frontend:** login/cadastro demonstrativo, hidratação, recipientes, histórico e ranking.
+- **Backend:** API REST em Cloudflare Workers, persistência em D1 e autenticação por Cloudflare Access (OTP por e-mail).
 
-Os dados são armazenados no `localStorage` do navegador. A autenticação ainda não é real e o ranking usa participantes e valores de demonstração; nada é sincronizado entre dispositivos ou usuários.
+O frontend continua usando `localStorage` até a etapa de integração dos serviços HTTP. O backend está sendo preparado separadamente para validar o ambiente Cloudflare antes de ligar as telas à API.
 
 ## Executar localmente
 
@@ -28,6 +27,12 @@ npm run build
 npm run preview
 ```
 
-## Próxima etapa
+## Cloudflare
 
-Conectar os serviços de dados a uma API em Cloudflare Workers e persistir usuários, recipientes, registros e ranking no Cloudflare D1. O protótipo não deve ser usado como sistema de autenticação ou acompanhamento clínico.
+Consulte [docs/cloudflare-worker.md](docs/cloudflare-worker.md) para:
+- Configuração do Worker e do D1.
+- Configuração do Cloudflare Access com e-mail OTP.
+- Migrations locais/remotas e deploy.
+- Rotas e decisões de segurança.
+
+O Worker está configurado para a conta Free com autenticação delegada ao Cloudflare Access. Não armazena senhas do aplicativo.
