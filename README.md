@@ -31,3 +31,10 @@ npm run preview
 ## Próxima etapa
 
 Conectar os serviços de dados a uma API em Cloudflare Workers e persistir usuários, recipientes, registros e ranking no Cloudflare D1. O protótipo não deve ser usado como sistema de autenticação ou acompanhamento clínico.
+
+ 
+## Backend em Cloudflare
+
+O Worker, a configuração Wrangler, a migration inicial e os endpoints REST estão sendo preparados em paralelo ao protótipo. Veja docs/cloudflare-worker.md para configuração local e implantação.
+
+Os nomes hydratation-api e hydratation-db e o UUID em wrangler.jsonc são provisórios. O UUID deve ser substituído pelo ID real do D1 antes de executar uma migration remota ou publicar o Worker.
