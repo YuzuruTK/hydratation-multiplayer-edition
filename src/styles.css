@@ -337,3 +337,9 @@ h1, h2, h3, strong,
 .potion-highlight{fill:none;stroke:var(--color-glass-edge-strong);stroke-width:5;stroke-linecap:round;opacity:.7}
 .potion-bubble{fill:var(--color-glass-highlight);stroke:var(--color-glass-edge-soft);stroke-width:1.5}
 .hydration-vessel--ocean-green .hydration-vessel-art{animation:vessel-float 4.5s ease-in-out infinite}
+
+/* Dracula uses the rocks tumbler vessel with Dracula's semantic palette. */
+.hydration-vessel--dracula .vessel-outline{fill:var(--color-glass-surface);stroke:var(--color-glass-edge);stroke-width:4;stroke-linejoin:round}
+.hydration-vessel--dracula .vessel-rim{fill:none;stroke:var(--color-glass-edge-strong);stroke-width:4;stroke-linecap:round}
+.hydration-vessel--dracula .drink-garnish:last-of-type{fill:var(--color-warning-soft);stroke:var(--color-warning);stroke-width:2}
+.hydration-vessel--dracula .hydration-vessel-art{filter:drop-shadow(0 13px 18px var(--color-primary-shadow-soft))}
