@@ -1,0 +1,38 @@
+:root {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-background);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --font-body: 'Inter', sans-serif;
+  --font-display: 'Inter', sans-serif;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
+
+  --duration-fast: 150ms;
+  --duration-normal: 220ms;
+  --duration-slow: 500ms;
+
+  --shadow-soft: 0 8px 24px rgba(37, 87, 123, .05);
+  --shadow-card: 0 12px 35px rgba(38, 85, 121, .07);
+  --shadow-raised: 0 18px 42px rgba(34, 71, 99, .12);
+  --shadow-primary: 0 7px 15px rgba(55, 143, 215, .18);
+  --shadow-primary-hover: 0 9px 18px rgba(55, 143, 215, .24);
+  --shadow-focus: 0 0 0 3px color-mix(in srgb, var(--color-primary) 24%, transparent);
+}
