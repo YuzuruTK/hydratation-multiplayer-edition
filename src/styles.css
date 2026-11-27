@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
-
 :root{font-family:'DM Sans',sans-serif;color:#233d52;background:#f4f8fc;font-synthesis:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;--ink:#233d52;--muted:#91a3b1;--blue:#399bdf;--line:#e6eef4;--shadow:0 12px 35px rgba(38,85,121,.07)}
 *{box-sizing:border-box}body{margin:0;min-width:320px;min-height:100vh;background:#f4f8fc}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid #b8def5;outline-offset:2px}#root{min-height:100vh}h1,h2,h3,p{margin-top:0}h1,h2,h3,strong{font-family:'Manrope',sans-serif}
 .app-shell{display:flex;min-height:100vh}.sidebar{width:246px;flex:0 0 246px;min-height:100vh;padding:30px 19px 20px;background:#fff;border-right:1px solid #eaf0f5;display:flex;flex-direction:column}
@@ -26,3 +24,211 @@
 @media(max-width:1050px){.sidebar{width:215px;flex-basis:215px;padding-left:15px;padding-right:15px}.hydration-card{padding-left:24px;padding-right:20px}.hydration-card-copy{width:60%}.water-glass-wrap{transform:scale(.9)}.container-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.app-shell{display:block}.sidebar{width:100%;min-height:auto;height:auto;padding:13px 17px 10px;border-right:0;border-bottom:1px solid #eaf0f5;flex-direction:row;align-items:center;justify-content:space-between;gap:12px}.brand-mark{width:35px;height:35px}.brand-lockup strong{font-size:15px}.brand-lockup span{font-size:9px}.sidebar-label,.sidebar-bottom{display:none}.side-nav{display:flex;gap:4px}.nav-item{width:auto;min-height:38px;gap:7px;padding:0 10px;font-size:10px;border-radius:10px}.nav-item.active{box-shadow:inset 0 -2px #48a8ed}.nav-item svg{width:16px}.nav-pill{display:none}.topbar{height:59px;min-height:59px;padding:0 18px}.topbar-date{font-size:10px}.topbar-user-copy{display:none}.topbar-logout{margin-left:0}.main-content{padding:27px 18px 35px}.page-heading{align-items:flex-start}.page-heading h1{font-size:24px}.page-heading p{max-width:300px;line-height:1.5}.hero-grid{grid-template-columns:1fr}.hydration-card{min-height:280px;padding:22px 20px}.hydration-card-copy{width:58%}.hydration-card h2{font-size:20px}.consumed-amount{font-size:27px}.hydration-visual{min-width:135px;width:42%;transform:scale(.9);transform-origin:center}.goal-side-card{padding:18px}.goal-side-card>strong{margin-top:12px}.goal-side-divider{margin:12px 0 8px}.text-link{padding-top:12px}.content-section{margin-top:29px}.section-heading h2{font-size:16px}.container-grid{gap:9px}.container-card{min-height:145px}.container-actions{opacity:1}.container-actions button{width:22px;height:22px}.app-footer{padding:12px 18px 18px}.ranking-toolbar{align-items:flex-start;flex-direction:column}.ranking-period-note{padding-left:3px}.podium{gap:9px;min-height:224px;padding-left:6px;padding-right:6px}.podium-item{width:31%}.podium-name{max-width:100px;font-size:9px}.podium-amount{font-size:8px}.podium-avatar{width:44px;height:44px}.avatar-place-1{width:56px;height:56px}.podium-step{height:60px}.podium-place-1 .podium-step{height:88px}.podium-place-3 .podium-step{height:48px}.ranking-table-heading{padding:17px 14px 12px}.ranking-table{padding:0 8px 9px}.ranking-row{gap:8px;padding:8px 7px}.rank-volume{min-width:58px;font-size:9px}.rank-user strong{font-size:9px}.you-badge{padding:4px 5px;font-size:7px}}
 @media(max-width:420px){.sidebar{align-items:flex-start;flex-direction:column;gap:8px;padding-bottom:9px}.side-nav{width:100%}.nav-item{flex:1;justify-content:center}.page-heading{gap:10px}.page-heading .button{min-height:36px;padding:0 9px;font-size:9px}.hydration-card{min-height:260px;padding:19px 14px}.hydration-card-copy{width:60%}.card-kicker{font-size:7px;letter-spacing:.75px}.hydration-card h2{margin-top:13px;font-size:18px}.consumed-amount{font-size:23px}.goal-caption{font-size:8px}.progress-track,.progress-foot{max-width:100%}.progress-foot{font-size:8px}.hydration-visual{min-width:110px;margin-right:-8px;transform:scale(.78)}.section-side-note{font-size:8px}.period-tab{padding:8px 10px;font-size:9px}.people-count{font-size:8px}.ranking-table-heading h2{font-size:13px}.ranking-table-heading p{font-size:8px}.rank-avatar{width:29px;height:29px}.rank-position{width:18px}.rank-trend{display:none}.auth-panel{padding:25px 22px 20px}}
+
+
+/* Visual retro: pixel font legível no uso diário. */
+:root {
+  font-family: 'Pixelify Sans', sans-serif;
+  -webkit-font-smoothing: auto;
+}
+
+body, button, input {
+  font-family: 'Pixelify Sans', sans-serif;
+}
+
+h1, h2, h3, strong,
+.avatar, .rank-avatar, .podium-avatar {
+  font-family: 'Pixelify Sans', sans-serif;
+  letter-spacing: 0;
+}
+
+.brand-lockup strong {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  line-height: 1.8;
+  letter-spacing: 0;
+}
+
+.page-heading h1 {
+  letter-spacing: 0;
+  font-size: clamp(23px, 3vw, 29px);
+}
+
+.hero-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.hydration-card {
+  min-height: 250px;
+  border-radius: 10px;
+  border: 2px solid #d9edf8;
+  box-shadow: 4px 4px 0 #e1edf4;
+}
+
+.hydration-card-copy {
+  max-width: 520px;
+  width: 62%;
+}
+
+.hydration-card h2 {
+  letter-spacing: 0;
+}
+
+.consumed-amount {
+  font-family: 'Pixelify Sans', sans-serif;
+  letter-spacing: 0;
+}
+
+.progress-track {
+  border-radius: 3px;
+}
+
+.progress-fill {
+  border-radius: 2px;
+}
+
+.content-section {
+  margin-top: 28px;
+}
+
+.section-heading {
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.section-heading h2 {
+  letter-spacing: 0;
+  margin: 0;
+  font-size: 19px;
+}
+
+.container-grid {
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  gap: 10px;
+}
+
+.container-card {
+  min-height: 132px;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.container-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 2px 2px 0 #e4eff5;
+}
+
+.container-actions {
+  opacity: 1;
+}
+
+.container-actions button {
+  width: 27px;
+  height: 27px;
+}
+
+.add-container-card {
+  border-style: solid;
+  background: #f8fcff;
+}
+
+.activity-section {
+  margin-top: 28px;
+}
+
+.activity-list, .empty-state {
+  border-radius: 8px;
+}
+
+.activity-row {
+  min-height: 52px;
+}
+
+.button, .nav-item, .period-tab, .kind-option {
+  border-radius: 7px;
+}
+
+.ranking-table-card {
+  border-top: 1px solid #e5eef5;
+  border-radius: 9px;
+}
+
+.ranking-table-heading {
+  padding: 17px 19px 11px;
+}
+
+.ranking-table-heading h2 {
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 18px;
+  letter-spacing: 0;
+}
+
+.ranking-row {
+  border-radius: 6px;
+}
+
+.you-badge {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  letter-spacing: 0;
+}
+
+.auth-page {
+  background: #f4f8fc;
+}
+
+.auth-decoration, .auth-illustration {
+  display: none;
+}
+
+.auth-panel {
+  border-radius: 10px;
+  border: 1px solid #e1ebf2;
+  box-shadow: 4px 4px 0 #e7f0f5;
+}
+
+.auth-copy h1 {
+  font-family: 'Pixelify Sans', sans-serif;
+  letter-spacing: 0;
+}
+
+.modal-card {
+  border-radius: 10px;
+}
+
+.modal-heading h2 {
+  letter-spacing: 0;
+}
+
+@media (max-width: 760px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hydration-card {
+    min-height: 235px;
+    border-radius: 9px;
+  }
+
+  .hydration-card-copy {
+    width: 59%;
+  }
+
+  .container-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .container-actions {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 420px) {
+  .brand-lockup strong {
+    font-size: 8px;
+  }
+
+  .hydration-card {
+    box-shadow: 3px 3px 0 #e1edf4;
+  }
+}
