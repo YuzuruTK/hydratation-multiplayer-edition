@@ -120,3 +120,50 @@
   --shadow-card: 0 12px 35px rgba(0, 0, 0, .2);
   --shadow-raised: 0 18px 42px rgba(0, 0, 0, .28);
 }
+
+
+/* Translucent effects and shadows share the active theme palette. */
+:root,
+[data-theme='ocean'] {
+  --shadow-card-color: rgba(38, 85, 121, .07);
+  --shadow-soft-color: rgba(37, 87, 123, .035);
+  --color-shadow-overlay: rgba(34, 71, 99, .2);
+  --color-surface-overlay: rgba(255, 255, 255, .65);
+  --color-header-overlay: rgba(255, 255, 255, .78);
+  --color-glass-highlight: rgba(255, 255, 255, .35);
+  --color-glass-highlight-soft: rgba(255, 255, 255, .06);
+  --color-glass-overlay: rgba(255, 255, 255, .2);
+  --color-glass-edge-soft: rgba(255, 255, 255, .58);
+  --color-glass-edge-strong: rgba(255, 255, 255, .8);
+  --color-primary-border-strong: rgba(69, 166, 216, .55);
+  --color-primary-glow: rgba(80, 170, 225, .12);
+  --color-primary-glow-soft: rgba(95, 178, 222, .035);
+  --color-primary-glow-faint: rgba(95, 178, 222, .025);
+  --color-primary-shadow: rgba(55, 143, 215, .18);
+  --color-primary-shadow-strong: rgba(55, 143, 215, .24);
+  --color-primary-shadow-soft: rgba(61, 137, 184, .13);
+  --color-progress-track-overlay: rgba(105, 174, 216, .2);
+  --color-success-glow: rgba(72, 180, 160, .1);
+}
+
+[data-theme='midnight'] {
+  --shadow-card-color: rgba(0, 0, 0, .24);
+  --shadow-soft-color: rgba(0, 0, 0, .16);
+  --color-shadow-overlay: rgba(0, 0, 0, .34);
+  --color-surface-overlay: rgba(38, 54, 74, .88);
+  --color-header-overlay: rgba(21, 29, 43, .9);
+  --color-glass-highlight: rgba(255, 255, 255, .18);
+  --color-glass-highlight-soft: rgba(255, 255, 255, .04);
+  --color-glass-overlay: rgba(255, 255, 255, .1);
+  --color-glass-edge-soft: rgba(255, 255, 255, .24);
+  --color-glass-edge-strong: rgba(255, 255, 255, .3);
+  --color-primary-border-strong: rgba(98, 184, 237, .52);
+  --color-primary-glow: rgba(98, 184, 237, .2);
+  --color-primary-glow-soft: rgba(98, 184, 237, .1);
+  --color-primary-glow-faint: rgba(98, 184, 237, .06);
+  --color-primary-shadow: rgba(40, 112, 165, .2);
+  --color-primary-shadow-strong: rgba(40, 112, 165, .3);
+  --color-primary-shadow-soft: rgba(40, 112, 165, .16);
+  --color-progress-track-overlay: rgba(98, 184, 237, .2);
+  --color-success-glow: rgba(91, 208, 181, .16);
+}
