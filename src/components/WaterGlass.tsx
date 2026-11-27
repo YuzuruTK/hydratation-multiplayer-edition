@@ -78,8 +78,8 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
           <>
             <path className="vessel-rim" d="M29 35 H111" />
             <path className="vessel-highlight" d="M43 43 C46 70 53 88 64 98 M73 116 V149" />
-            <path className="chalice-detail" d="M57 108 L70 119 L83 108 M49 160 H91" />
-            <path className="chalice-glint" d="M38 42 H50 M90 42 H102" />
+            <path className="vessel-highlight" d="M57 108 L70 119 L83 108 M49 160 H91" />
+            <path className="vessel-highlight" d="M38 42 H50 M90 42 H102" />
           </>
         ) : (
           <>
