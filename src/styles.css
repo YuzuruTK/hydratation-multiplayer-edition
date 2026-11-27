@@ -293,3 +293,21 @@ h1, h2, h3, strong,
     font-size: 10px;
   }
 }
+
+
+/* Hourly hydration chart */
+.hourly-chart-card{padding:20px 22px 15px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);box-shadow:var(--shadow-soft)}
+.hourly-chart-summary{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:18px}
+.hourly-chart-summary>strong{color:var(--color-text);font-size:24px;font-weight:700;letter-spacing:-.6px}
+.hourly-chart-summary>strong span{color:var(--color-text-muted);font-size:12px;font-weight:500;letter-spacing:0}
+.hourly-chart-peak{color:var(--color-text-muted);font-size:11px;text-align:right}
+.hourly-chart{display:grid;grid-template-columns:repeat(24,minmax(0,1fr));align-items:end;gap:5px;height:124px}
+.hourly-chart-column{display:flex;min-width:0;height:100%;flex-direction:column;align-items:center}
+.hourly-chart-bar-track{display:flex;width:100%;height:100%;align-items:end;overflow:hidden;background:var(--color-progress-track);border-radius:5px 5px 2px 2px}
+.hourly-chart-bar{width:100%;min-height:0;background:var(--color-primary-soft);border-radius:5px 5px 2px 2px;transition:height var(--duration-normal) ease,background var(--duration-normal) ease}
+.hourly-chart-bar.has-value{min-height:3px;background:var(--color-primary)}
+.hourly-chart-label{height:18px;padding-top:6px;color:var(--color-text-muted);font-size:9px;line-height:1}
+.hourly-chart-empty{margin:5px 0 0;color:var(--color-text-muted);font-size:12px;text-align:center}
+.activity-edit{display:inline-flex;width:28px;height:28px;flex:0 0 auto;align-items:center;justify-content:center;color:var(--color-text-muted);background:transparent;border:0;border-radius:var(--radius-sm);cursor:pointer;transition:color var(--duration-fast),background var(--duration-fast)}
+.activity-edit:hover{color:var(--color-primary);background:var(--color-primary-soft)}
+@media(max-width:600px){.hourly-chart-card{padding:17px 13px 12px}.hourly-chart{gap:3px;height:104px}.hourly-chart-summary>strong{font-size:21px}.hourly-chart-peak{max-width:145px;font-size:10px}.hourly-chart-label{font-size:8px}}
