@@ -197,7 +197,7 @@
   --color-border:#44475a; --color-border-soft:#393c4e; --color-border-strong:#6272a4;
   --color-primary:#bd93f9; --color-primary-strong:#d6acff; --color-primary-hover:#ff79c6; --color-primary-muted:#cba8ff; --color-primary-soft:#403653; --color-primary-softer:#343044; --color-primary-border:#5d4b79; --color-primary-contrast:#282a36;
   --color-success:#50fa7b; --color-success-soft:#294438; --color-danger:#ff5555; --color-danger-soft:#4a303b; --color-warning:#f1fa8c; --color-warning-soft:#4a4935; --color-purple:#bd93f9; --color-purple-soft:#403653;
-  --color-water-start:#8be9fd; --color-water-mid:#bd93f9; --color-water-end:#6272a4; --color-progress-track:#44475a;
+  --color-water-start:#ff5555; --color-water-mid:#bd93f9; --color-water-end:#7e3f9f; --color-progress-track:#44475a;
   --color-hero-start:#343746; --color-hero-mid:#303341; --color-hero-end:#282a36;
   --color-rank-gold:#f1fa8c; --color-rank-gold-soft:#4a4935; --color-rank-gold-border:#6b694b; --color-rank-silver:#d6d6e0; --color-rank-silver-soft:#3c3e4e; --color-rank-silver-border:#55586b; --color-rank-bronze:#ffb86c; --color-rank-bronze-soft:#493b35; --color-rank-bronze-border:#6b5141;
   --color-overlay:rgba(15,15,24,.76); --color-glass-surface:rgba(248,248,242,.1); --color-glass-edge:rgba(248,248,242,.4);
