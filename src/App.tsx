@@ -24,13 +24,14 @@ import {
   X,
 } from 'lucide-react';
 import WaterGlass from './components/WaterGlass';
+import HourlyWaterChart from './components/HourlyWaterChart';
 import { loadState, saveState } from './lib/storage';
 import type { ContainerKind, PersistedState, User, WaterContainer, WaterLog } from './types';
 import { useTheme, type ThemeName } from './theme/ThemeProvider';
 
 type MainScreen = 'home' | 'ranking';
 type RankingPeriod = 'day' | 'week' | 'month';
-type ModalType = 'container' | 'goal' | null;
+type ModalType = 'container' | 'goal' | 'log' | null;
 
 const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
   weekday: 'long',
@@ -58,6 +59,10 @@ function getGreeting(): string {
 
 function getInitials(name: string): string {
   return name.trim().split(/\s+/).slice(0, 2).map((part) => part[0]?.toUpperCase() ?? '').join('');
+}
+
+function formatTime(date: Date): string {
+  return String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
 }
 
 function formatMl(amount: number): string {
@@ -100,6 +105,8 @@ function App() {
   const [authError, setAuthError] = useState('');
   const [modal, setModal] = useState<ModalType>(null);
   const [editingContainer, setEditingContainer] = useState<WaterContainer | null>(null);
+  const [editingLog, setEditingLog] = useState<WaterLog | null>(null);
+  const [logTimeInput, setLogTimeInput] = useState('');
   const [containerName, setContainerName] = useState('');
   const [containerAmount, setContainerAmount] = useState('350');
   const [containerKind, setContainerKind] = useState<ContainerKind>('glass');
@@ -188,6 +195,26 @@ function App() {
       consumedAt: new Date().toISOString(),
     };
     updateState((current) => ({ ...current, logs: [...current.logs, newLog] }));
+  }
+
+  function openEditLog(log: WaterLog) {
+    setEditingLog(log);
+    setLogTimeInput(formatTime(new Date(log.consumedAt)));
+    setModal('log');
+  }
+
+  function saveLogTime(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!editingLog || !/^([01]\\d|2[0-3]):[0-5]\\d$/.test(logTimeInput)) return;
+    const [hours, minutes] = logTimeInput.split(':').map(Number);
+    const consumedAt = new Date(editingLog.consumedAt);
+    consumedAt.setHours(hours, minutes, 0, 0);
+    updateState((current) => ({
+      ...current,
+      logs: current.logs.map((log) => log.id === editingLog.id ? { ...log, consumedAt: consumedAt.toISOString() } : log),
+    }));
+    setEditingLog(null);
+    setModal(null);
   }
 
   function deleteLog(logId: string) {
@@ -407,6 +434,11 @@ function App() {
 
               </section>
 
+              <section className="content-section hourly-chart-section">
+                <div className="section-heading"><h2>Consumo por hora</h2><span className="section-side-note">ml registrados hoje</span></div>
+                <HourlyWaterChart logs={todayLogs} />
+              </section>
+
               <section className="content-section">
                 <div className="section-heading">
                   <h2>Registrar água</h2>
@@ -449,6 +481,7 @@ function App() {
                         <div className="activity-icon"><Droplets size={18} /></div>
                         <div className="activity-copy"><strong>{log.containerName}</strong><span><Clock3 size={13} /> {new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit' }).format(new Date(log.consumedAt))}</span></div>
                         <strong className="activity-amount">+{formatMl(log.amountMl)}</strong>
+                        <button type="button" className="activity-edit" aria-label={'Editar horário de ' + log.containerName} onClick={() => openEditLog(log)}><Pencil size={15} /></button>
                         <button type="button" className="activity-delete" aria-label="Remover registro" onClick={() => deleteLog(log.id)}><Trash2 size={15} /></button>
                       </div>
                     ))}
@@ -500,7 +533,7 @@ function App() {
         <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setModal(null); }}>
           <div className="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
             <div className="modal-heading">
-              <div><span className="eyebrow">{modal === 'goal' ? 'SEU RITMO, SUAS REGRAS' : 'PERSONALIZE SEU DIA'}</span><h2 id="modal-title">{modal === 'goal' ? 'Ajustar meta diária' : editingContainer ? 'Editar recipiente' : 'Novo recipiente'}</h2></div>
+              <div><span className="eyebrow">{modal === 'goal' ? 'SEU RITMO, SUAS REGRAS' : modal === 'log' ? 'AJUSTE SEU REGISTRO' : 'PERSONALIZE SEU DIA'}</span><h2 id="modal-title">{modal === 'goal' ? 'Ajustar meta diária' : modal === 'log' ? 'Editar horário' : editingContainer ? 'Editar recipiente' : 'Novo recipiente'}</h2></div>
               <button type="button" className="icon-button" aria-label="Fechar" onClick={() => setModal(null)}><X size={19} /></button>
             </div>
             {modal === 'goal' ? (
@@ -508,6 +541,12 @@ function App() {
                 <label className="field-label">Sua meta diária (ml)<input type="number" min="300" max="6000" step="50" value={goalInput} onChange={(event) => setGoalInput(event.target.value)} autoFocus /></label>
                 <div className="modal-tip"><Target size={18} /><p>Uma estimativa inicial simples é 35 ml por kg de peso. Você pode ajustar esse valor como preferir; ele não substitui orientação profissional.</p></div>
                 <div className="modal-actions"><button type="button" className="button button-outline" onClick={() => setModal(null)}>Cancelar</button><button type="submit" className="button button-primary"><Check size={16} /> Salvar meta</button></div>
+              </form>
+            ) : modal === 'log' ? (
+              <form className="modal-form" onSubmit={saveLogTime}>
+                <label className="field-label">Horário do consumo<input type="time" value={logTimeInput} onChange={(event) => setLogTimeInput(event.target.value)} required autoFocus /></label>
+                <p className="field-hint">A quantidade e a data do registro serão mantidas; apenas o horário será alterado.</p>
+                <div className="modal-actions"><button type="button" className="button button-outline" onClick={() => setModal(null)}>Cancelar</button><button type="submit" className="button button-primary"><Check size={16} /> Salvar horário</button></div>
               </form>
             ) : (
               <form className="modal-form" onSubmit={saveContainer}>
