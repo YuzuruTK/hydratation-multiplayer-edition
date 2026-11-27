@@ -74,7 +74,7 @@ function BrandMark() {
   return (
     <div className="brand-lockup">
       <div className="brand-mark"><Droplets size={22} fill="currentColor" /></div>
-      <div><strong>hydratation</strong><span>um gole de cada vez</span></div>
+      <div><strong>hydration</strong><span>um gole de cada vez</span></div>
     </div>
   );
 }
@@ -133,7 +133,7 @@ function App() {
     const demoUser: User = {
       id: 'demo-user',
       name: 'Você',
-      email: 'demo@hydratation.app',
+      email: 'demo@hydration.app',
       weightKg: 70,
       heightCm: 170,
     };
@@ -493,7 +493,7 @@ function App() {
             </section>
           )}
         </main>
-        <footer className="app-footer"><span>Feito com cuidado <span className="footer-heart">♥</span></span><span>HYDRATATION · PROTÓTIPO</span></footer>
+        <footer className="app-footer"><span>Feito com cuidado <span className="footer-heart">♥</span></span><span>HYDRATION · PROTÓTIPO</span></footer>
       </div>
 
       {modal && (
