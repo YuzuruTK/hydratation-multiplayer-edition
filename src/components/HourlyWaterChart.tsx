@@ -30,7 +30,7 @@ export default function HourlyWaterChart({ logs }: HourlyWaterChartProps) {
   const hourlyTotals = Array.from({ length: 24 }, () => 0);
   for (const log of logs) hourlyTotals[new Date(log.consumedAt).getHours()] += log.amountMl;
 
-  const cumulativeTotals = hourlyTotals.map((amount, hour) =>
+  const cumulativeTotals = hourlyTotals.map((_, hour) =>
     hourlyTotals.slice(0, hour + 1).reduce((sum, value) => sum + value, 0),
   );
   const total = cumulativeTotals[cumulativeTotals.length - 1];
