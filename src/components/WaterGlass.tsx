@@ -13,14 +13,30 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
   const clipId = useId();
   const isDrop = theme === 'ocean';
   const isPotion = theme === 'ocean-green';
+  const isChalice = theme === 'dracula';
 
   const dropPath = 'M70 8 C60 27 23 66 23 105 C23 139 43 161 70 161 C97 161 117 139 117 105 C117 66 80 27 70 8 Z';
   const rocksPath = 'M28 34 H112 L106 153 Q105 164 94 164 H46 Q35 164 34 153 Z';
-  const potionPath = 'M53 18 H87 V42 L102 57 Q112 67 112 83 V143 Q112 157 98 157 H42 Q28 157 28 143 V83 Q28 67 38 57 L53 42 Z';
+  // Round, classic RPG potion flask with a narrow neck and bulbous glass body.
+  const potionPath = 'M57 18 H83 V49 L96 62 C111 77 119 94 119 116 V137 C119 153 107 163 91 163 H49 C33 163 21 153 21 137 V116 C21 94 29 77 44 62 L57 49 Z';
+  // Elegant fantasy chalice: wide bowl, narrow stem, and a broad foot.
+  const chalicePath = 'M31 35 H109 C108 65 101 91 83 107 L77 112 V151 H91 Q101 151 101 161 V166 H39 V161 Q39 151 49 151 H63 V112 L57 107 C39 91 32 65 31 35 Z';
 
-  const vesselPath = isDrop ? dropPath : isPotion ? potionPath : rocksPath;
-  const waterTop = isDrop ? 161 - 1.35 * fill : isPotion ? 143 - 1.1 * fill : 153 - 1.05 * fill;
-  const waterHeight = isDrop ? 1.35 * fill + 4 : isPotion ? 1.1 * fill + 4 : 1.05 * fill + 4;
+  const vesselPath = isDrop ? dropPath : isPotion ? potionPath : isChalice ? chalicePath : rocksPath;
+  const waterTop = isDrop
+    ? 161 - 1.35 * fill
+    : isPotion
+      ? 151 - 0.82 * fill
+      : isChalice
+        ? 103 - 0.64 * fill
+        : 153 - 1.05 * fill;
+  const waterHeight = isDrop
+    ? 1.35 * fill + 4
+    : isPotion
+      ? 0.82 * fill + 4
+      : isChalice
+        ? 0.64 * fill + 4
+        : 1.05 * fill + 4;
 
   return (
     <div
@@ -41,18 +57,29 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
         </defs>
         <path className="vessel-outline" d={vesselPath} />
         <g clipPath={`url(#${clipId}-shape)`}>
-          <rect className="vessel-water" x="20" y={waterTop} width="100" height={waterHeight} fill={`url(#${clipId}-water)`} />
-          <path className="vessel-water-shine" d={isDrop ? 'M30 106 Q50 99 70 106 T110 106' : isPotion ? 'M32 88 Q70 81 108 88' : 'M36 86 Q70 79 104 86'} />
+          <rect className="vessel-water" x="18" y={waterTop} width="104" height={waterHeight} fill={`url(#${clipId}-water)`} />
+          <path
+            className="vessel-water-shine"
+            d={isDrop ? 'M30 106 Q50 99 70 106 T110 106' : isPotion ? 'M25 112 Q70 103 115 112' : isChalice ? 'M34 65 Q70 59 106 65' : 'M36 86 Q70 79 104 86'}
+          />
         </g>
         {isDrop ? (
           <path className="vessel-highlight" d="M54 47 C42 69 35 88 35 105" />
         ) : isPotion ? (
           <>
-            <path className="potion-neck" d="M53 18 H87 V42 L102 57 Q112 67 112 83 V143 Q112 157 98 157 H42 Q28 157 28 143 V83 Q28 67 38 57 L53 42 Z" />
-            <rect className="potion-cork" x="51" y="7" width="38" height="16" rx="4" />
-            <path className="potion-highlight" d="M42 76 V133 Q42 140 48 140" />
-            <circle className="potion-bubble" cx="86" cy="115" r="4" />
-            <circle className="potion-bubble" cx="59" cy="128" r="2.5" />
+            <path className="potion-neck" d="M57 18 H83 V49 L96 62 C111 77 119 94 119 116 V137 C119 153 107 163 91 163 H49 C33 163 21 153 21 137 V116 C21 94 29 77 44 62 L57 49 Z" />
+            <rect className="potion-cork" x="54" y="7" width="32" height="15" rx="4" />
+            <path className="potion-highlight" d="M43 91 C35 107 35 129 40 141 Q43 148 50 149" />
+            <circle className="potion-bubble" cx="91" cy="122" r="4" />
+            <circle className="potion-bubble" cx="64" cy="137" r="2.8" />
+            <circle className="potion-bubble" cx="78" cy="106" r="2" />
+          </>
+        ) : isChalice ? (
+          <>
+            <path className="vessel-rim" d="M29 35 H111" />
+            <path className="vessel-highlight" d="M43 43 C46 70 53 88 64 98 M73 116 V149" />
+            <path className="chalice-detail" d="M57 108 L70 119 L83 108 M49 160 H91" />
+            <path className="chalice-glint" d="M38 42 H50 M90 42 H102" />
           </>
         ) : (
           <>
