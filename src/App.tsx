@@ -205,8 +205,9 @@ function App() {
 
   function saveLogTime(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!editingLog || !/^([01]\\d|2[0-3]):[0-5]\\d$/.test(logTimeInput)) return;
+    if (!editingLog || logTimeInput.length !== 5 || logTimeInput[2] !== ':') return;
     const [hours, minutes] = logTimeInput.split(':').map(Number);
+    if (!Number.isInteger(hours) || hours < 0 || hours > 23 || !Number.isInteger(minutes) || minutes < 0 || minutes > 59) return;
     const consumedAt = new Date(editingLog.consumedAt);
     consumedAt.setHours(hours, minutes, 0, 0);
     updateState((current) => ({
