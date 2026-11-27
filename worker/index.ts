@@ -1,6 +1,6 @@
 import { requireAuthenticatedUser, type AuthenticatedUser } from './lib/auth';
 import { assertSameOrigin, errorResponse, json, methodNotAllowed, notFound } from './lib/http';
-import { login, logout, register } from './routes/auth';
+import { getAuthSession, logout, register } from './routes/auth';
 import { createContainer, listContainers, removeContainer, updateContainer } from './routes/containers';
 import { getProfile, updateProfile } from './routes/profile';
 import { getRanking } from './routes/ranking';
@@ -11,7 +11,7 @@ async function authenticated(
   env: Env,
   handler: (user: AuthenticatedUser) => Promise<Response> | Response,
 ): Promise<Response> {
-  const user = await requireAuthenticatedUser(request, env.DB);
+  const user = await requireAuthenticatedUser(request, env);
   return handler(user);
 }
 
@@ -25,14 +25,16 @@ async function handleApi(request: Request, env: Env): Promise<Response> {
       : methodNotAllowed(['GET']);
   }
 
+  if (pathname === '/api/auth/session') {
+    return request.method === 'GET'
+      ? getAuthSession(request, env)
+      : methodNotAllowed(['GET']);
+  }
   if (pathname === '/api/auth/register') {
     return request.method === 'POST' ? register(request, env) : methodNotAllowed(['POST']);
   }
-  if (pathname === '/api/auth/login') {
-    return request.method === 'POST' ? login(request, env) : methodNotAllowed(['POST']);
-  }
   if (pathname === '/api/auth/logout') {
-    return request.method === 'POST' ? logout(request, env) : methodNotAllowed(['POST']);
+    return request.method === 'POST' ? logout() : methodNotAllowed(['POST']);
   }
 
   if (pathname === '/api/me') {

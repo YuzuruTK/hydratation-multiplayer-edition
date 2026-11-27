@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "hydratation-api",
+  "name": "hydratation-multiplayer-edition",
   "main": "./worker/index.ts",
   "compatibility_date": "2026-11-27",
   "assets": {
@@ -14,8 +14,8 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "hydratation-db",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_name": "hydratation-multiplayer-edition",
+      "database_id": "2d015ed2-47f2-428b-8a8a-5f7ec43b1106",
       "migrations_dir": "./migrations"
     }
   ],

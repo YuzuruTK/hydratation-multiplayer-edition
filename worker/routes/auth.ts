@@ -1,29 +1,6 @@
-import { deleteCurrentSession, createSession, expiredSessionCookie, sessionCookie, type AuthenticatedUser } from '../lib/auth';
-import { hashPassword, randomHex, sha256Hex, verifyPassword } from '../lib/crypto';
+import { requireAccessIdentity } from '../lib/access';
+import type { AuthenticatedUser } from '../lib/auth';
 import { HttpError, json, readJson, requireInteger, requireString } from '../lib/http';
-
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const dummyPasswordHash =
-  'scrypt$16384$8$5$00000000000000000000000000000000$0000000000000000000000000000000000000000000000000000000000000000';
-
-function normalizeEmail(value: unknown): string {
-  const email = requireString(value, 'email', 3, 254).toLowerCase();
-  if (!emailPattern.test(email)) {
-    throw new HttpError(400, 'VALIDATION_ERROR', 'Informe um endereço de e-mail válido.');
-  }
-  return email;
-}
-
-function passwordValue(value: unknown, minimum: number): string {
-  if (typeof value !== 'string' || value.length < minimum || value.length > 128) {
-    throw new HttpError(
-      400,
-      'VALIDATION_ERROR',
-      'A senha deve ter entre ' + minimum + ' e 128 caracteres.',
-    );
-  }
-  return value;
-}
 
 function userResponse(user: AuthenticatedUser): Record<string, unknown> {
   return {
@@ -36,28 +13,68 @@ function userResponse(user: AuthenticatedUser): Record<string, unknown> {
   };
 }
 
+export async function getAuthSession(request: Request, env: Env): Promise<Response> {
+  const identity = await requireAccessIdentity(request, env);
+  const user = await env.DB.prepare(
+    'SELECT id, name, email, weight_kg AS weightKg, height_cm AS heightCm, ' +
+    'daily_goal_ml AS dailyGoalMl FROM users WHERE access_sub = ? LIMIT 1',
+  ).bind(identity.sub).first<AuthenticatedUser>();
+
+  if (!user) {
+    return json({
+      authenticated: true,
+      registered: false,
+      identity: { email: identity.email },
+      user: null,
+    });
+  }
+
+  return json({
+    authenticated: true,
+    registered: true,
+    identity: { email: identity.email },
+    user: userResponse(user),
+  });
+}
+
 export async function register(request: Request, env: Env): Promise<Response> {
+  const identity = await requireAccessIdentity(request, env);
   const body = await readJson(request);
   const name = requireString(body.name, 'name', 1, 60);
-  const email = normalizeEmail(body.email);
-  const password = passwordValue(body.password, 8);
-  const weightKg = body.weightKg === undefined ? 70 : requireInteger(body.weightKg, 'weightKg', 30, 250);
-  const heightCm = body.heightCm === undefined ? 170 : requireInteger(body.heightCm, 'heightCm', 100, 250);
+  const weightKg = body.weightKg === undefined
+    ? 70
+    : requireInteger(body.weightKg, 'weightKg', 30, 250);
+  const heightCm = body.heightCm === undefined
+    ? 170
+    : requireInteger(body.heightCm, 'heightCm', 100, 250);
   const dailyGoalMl = Math.min(6000, Math.round(weightKg * 35));
   const userId = crypto.randomUUID();
-  const sessionId = crypto.randomUUID();
-  const token = randomHex(32);
-  const tokenHash = await sha256Hex(token);
   const now = new Date().toISOString();
-  const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-  const passwordHash = await hashPassword(password);
+
+  const existingBySubject = await env.DB.prepare(
+    'SELECT id FROM users WHERE access_sub = ? LIMIT 1',
+  ).bind(identity.sub).first<{ id: string }>();
+  if (existingBySubject) {
+    throw new HttpError(409, 'PROFILE_ALREADY_EXISTS', 'Seu perfil já está cadastrado.');
+  }
+
+  const existingByEmail = await env.DB.prepare(
+    'SELECT id FROM users WHERE email = ? LIMIT 1',
+  ).bind(identity.email).first<{ id: string }>();
+  if (existingByEmail) {
+    throw new HttpError(
+      409,
+      'EMAIL_ALREADY_REGISTERED',
+      'Este e-mail já está associado a outro perfil. Entre em contato com o administrador.',
+    );
+  }
 
   try {
     await env.DB.batch([
       env.DB.prepare(
-        'INSERT INTO users (id, name, email, password_hash, weight_kg, height_cm, daily_goal_ml, created_at) ' +
+        'INSERT INTO users (id, access_sub, name, email, weight_kg, height_cm, daily_goal_ml, created_at) ' +
         'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-      ).bind(userId, name, email, passwordHash, weightKg, heightCm, dailyGoalMl, now),
+      ).bind(userId, identity.sub, name, identity.email, weightKg, heightCm, dailyGoalMl, now),
       env.DB.prepare(
         'INSERT INTO containers (id, user_id, name, volume_ml, kind, created_at) VALUES ' +
         "(?, ?, 'Copo', 200, 'glass', ?), " +
@@ -68,52 +85,26 @@ export async function register(request: Request, env: Env): Promise<Response> {
         crypto.randomUUID(), userId, now,
         crypto.randomUUID(), userId, now,
       ),
-      env.DB.prepare(
-        'INSERT INTO sessions (id, user_id, token_hash, expires_at, created_at) VALUES (?, ?, ?, ?, ?)',
-      ).bind(sessionId, userId, tokenHash, expiresAt, now),
-      env.DB.prepare('DELETE FROM sessions WHERE expires_at <= ?').bind(now),
     ]);
   } catch (error) {
     const message = error instanceof Error ? error.message : '';
     if (message.toLowerCase().includes('unique')) {
-      throw new HttpError(409, 'EMAIL_ALREADY_EXISTS', 'Já existe uma conta com esse e-mail.');
+      throw new HttpError(409, 'PROFILE_ALREADY_EXISTS', 'Não foi possível criar um segundo perfil para esta identidade.');
     }
     throw error;
   }
 
-  const user: AuthenticatedUser = { id: userId, name, email, weightKg, heightCm, dailyGoalMl };
-  return json({ user: userResponse(user) }, 201, { 'Set-Cookie': sessionCookie(token) });
-}
-
-export async function login(request: Request, env: Env): Promise<Response> {
-  const body = await readJson(request);
-  const email = normalizeEmail(body.email);
-  const password = passwordValue(body.password, 1);
-
-  const record = await env.DB.prepare(
-    'SELECT id, name, email, password_hash AS passwordHash, ' +
-    'weight_kg AS weightKg, height_cm AS heightCm, daily_goal_ml AS dailyGoalMl ' +
-    'FROM users WHERE email = ? LIMIT 1',
-  ).bind(email).first<AuthenticatedUser & { passwordHash: string }>();
-
-  const valid = await verifyPassword(password, record?.passwordHash ?? dummyPasswordHash);
-  if (!record || !valid) {
-    throw new HttpError(401, 'INVALID_CREDENTIALS', 'E-mail ou senha incorretos.');
-  }
-
-  const token = await createSession(env.DB, record.id);
   const user: AuthenticatedUser = {
-    id: record.id,
-    name: record.name,
-    email: record.email,
-    weightKg: record.weightKg,
-    heightCm: record.heightCm,
-    dailyGoalMl: record.dailyGoalMl,
+    id: userId,
+    name,
+    email: identity.email,
+    weightKg,
+    heightCm,
+    dailyGoalMl,
   };
-  return json({ user: userResponse(user) }, 200, { 'Set-Cookie': sessionCookie(token) });
+  return json({ user: userResponse(user) }, 201);
 }
 
-export async function logout(request: Request, env: Env): Promise<Response> {
-  await deleteCurrentSession(request, env.DB);
-  return json({ success: true }, 200, { 'Set-Cookie': expiredSessionCookie() });
+export function logout(): Response {
+  return json({ logoutUrl: '/cdn-cgi/access/logout' });
 }

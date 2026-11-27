@@ -1,93 +1,94 @@
 # Cloudflare Worker
 
-A API usa um Worker como backend e serve o build do React pelo recurso Static Assets do mesmo Worker. Assim, frontend e API ficam na mesma origem e a sessão usa cookie HttpOnly sem precisar configurar CORS.
+O frontend React e a API REST são servidos pelo mesmo Worker usando Static Assets. A autenticação é delegada ao Cloudflare Access (código temporário por e-mail), e os perfis, recipientes e registros ficam no D1.
 
 ## Recursos configurados
 
-- Worker: `hydratation-api` (nome provisório em `wrangler.jsonc`).
-- D1: `hydratation-db` (nome provisório).
+- Worker: `hydratation-multiplayer-edition`.
+- D1: `hydratation-multiplayer-edition`.
+- D1 ID: `2d015ed2-47f2-428b-8a8a-5f7ec43b1106`.
 - Binding do banco: `DB`.
 - Binding dos arquivos estáticos: `ASSETS`.
 - Fuso dos períodos: `America/Sao_Paulo`.
-- Runtime: `node:crypto` para hash de senha; a compatibility date atual já habilita APIs Node suportadas.
 
-O `database_id` no Wrangler é um UUID fictício para a configuração inicial. Substitua-o pelo ID real do D1 antes de qualquer migração remota ou deploy. O nome do Worker e o nome do D1 também podem ser ajustados quando os recursos forem criados na conta Cloudflare.
+## Configurar autenticação Cloudflare Access (plano Free)
+
+A conta Free tem limite de 10 ms de CPU por requisição no Workers. Por isso, o aplicativo não armazena senhas nem executa KDF de senha no Worker. O Cloudflare Access autentica a identidade por e-mail OTP antes de encaminhar a requisição.
+
+1. No painel Cloudflare, abra **Zero Trust** e conclua a configuração do Cloudflare One Free.
+2. Em **Access controls → Applications**, crie uma aplicação para o Worker `hydratation-multiplayer-edition` (Self-hosted).
+3. Habilite **One-time PIN** como método de login.
+4. Crie uma policy **Allow**.
+   - Para restringir aos seus amigos, use o seletor **Emails** e adicione os e-mails permitidos.
+   - Para permitir que qualquer pessoa com e-mail válido entre, use **Login Methods → One-time PIN**. Essa configuração abre o cadastro a qualquer pessoa que consiga receber o OTP.
+5. Ative a proteção do próprio Worker no painel Workers & Pages → hydratation-multiplayer-edition → Settings/Access, incluindo as URLs `workers.dev` de produção e preview, para que não exista um endereço alternativo sem Access.
+6. Copie o **team domain** (por exemplo, `seu-time.cloudflareaccess.com`) e o **Application Audience (AUD) Tag** da aplicação.
+
+Depois disso, adicione os dois valores como variáveis do Worker:
+
+- `ACCESS_TEAM_DOMAIN`: somente o hostname do team domain, sem `https://`.
+- `ACCESS_AUD`: Audience tag da aplicação criada.
+
+A validação da API verifica a assinatura RS256 do header `Cf-Access-Jwt-Assertion`, além de issuer, audience, expiração e identidade. As chaves públicas do Access são obtidas do endpoint oficial de certificados e mantidas em cache no isolate por cinco minutos. A API não confia apenas na presença do header.
+
+O Access Free é indicado para equipes com menos de 50 usuários. Veja a página de planos e os limites atuais antes de abrir o aplicativo para um público maior.
 
 ## Desenvolvimento local
 
 Requisitos: Node.js 20.19+.
 
-Instale as dependências:
-
 ```bash
 npm install
-```
-
-Gere o build do frontend (o diretório `dist` é servido pelo Worker):
-
-```bash
 npm run build
-```
-
-Aplique a migration no D1 local:
-
-```bash
 npm run db:migrate:local
-```
-
-Inicie o Worker em um terminal:
-
-```bash
 npm run dev:worker
 ```
 
-Inicie o Vite em outro terminal:
+Em outro terminal:
 
 ```bash
 npm run dev
 ```
 
-O Vite encaminha `/api/*` para `http://127.0.0.1:8787`. A variável `APP_ORIGIN` é injetada somente no comando de desenvolvimento. A interface ainda usa seu armazenamento local nesta etapa; a API será conectada à interface na integração seguinte.
+O Vite encaminha `/api/*` para `http://127.0.0.1:8787`. Para testar endpoints protegidos localmente, será necessário usar um token de Access válido ou adicionar um mock seguro de identidade nos testes. Não há bypass de autenticação habilitado no Worker.
 
 ## Migrações e publicação
 
-Após substituir o `database_id` pelo UUID fornecido pelo Cloudflare:
+O D1 já está configurado com o nome e o ID informados. Depois de revisar a migration e definir `ACCESS_TEAM_DOMAIN` e `ACCESS_AUD`, os comandos são:
 
 ```bash
 npm run db:migrate:remote
+npm run build
 npm run deploy
 ```
 
-A migration remota altera o banco real. Execute-a apenas depois de conferir o nome e o ID do D1.
+A migration remota altera o banco real; execute-a somente quando estiver pronto para inicializar o banco.
 
 ## Endpoints
 
 | Método | Rota | Autenticação |
 |---|---|---|
-| GET | `/api/health` | Não |
-| POST | `/api/auth/register` | Não |
-| POST | `/api/auth/login` | Não |
-| POST | `/api/auth/logout` | Sessão, quando existente |
-| GET | `/api/me` | Sim |
-| PATCH | `/api/me` | Sim |
-| GET / POST | `/api/containers` | Sim |
-| PATCH / DELETE | `/api/containers/:id` | Sim |
-| GET | `/api/water/today` | Sim |
-| POST | `/api/water` | Sim |
-| DELETE | `/api/water/:id` | Sim |
-| GET | `/api/ranking?period=day\|week\|month` | Sim |
+| GET | `/api/health` | Access na borda |
+| GET | `/api/auth/session` | Access |
+| POST | `/api/auth/register` | Access |
+| POST | `/api/auth/logout` | Access |
+| GET | `/api/me` | Access + perfil |
+| PATCH | `/api/me` | Access + perfil |
+| GET / POST | `/api/containers` | Access + perfil |
+| PATCH / DELETE | `/api/containers/:id` | Access + perfil |
+| GET | `/api/water/today` | Access + perfil |
+| POST | `/api/water` | Access + perfil |
+| DELETE | `/api/water/:id` | Access + perfil |
+| GET | `/api/ranking?period=day\|week\|month` | Access + perfil |
 
 ## Decisões de segurança
 
-- O hash de senha usa scrypt com `N=2^14`, `r=8` e `p=5` (16 MiB), uma das configurações mínimas alternativas indicadas pela OWASP quando Argon2id não está disponível.
-- O token de sessão é aleatório; somente seu SHA-256 fica no D1.
-- A sessão é transportada em cookie `HttpOnly`, `Secure` e `SameSite=Lax`.
-- Requisições com origem declarada são verificadas contra a origem do Worker e `APP_ORIGIN`.
+- Login e OTP são gerenciados pelo Cloudflare Access.
+- A API valida a assinatura RS256 do JWT do Access, o issuer, a audiência e a expiração.
+- O identificador imutável `sub` do Access é associado ao perfil por `access_sub`.
+- E-mail e nome nunca são aceitos do corpo de registro: o e-mail vem da identidade verificada pelo Access.
 - Todas as operações de recipientes e consumo verificam a propriedade do usuário no servidor.
 - O ranking compartilha apenas identificador, nome e volume total, nunca e-mail, peso, altura ou meta pessoal.
+- Não há senha local nem tabela de sessão própria.
 
-### Atenção ao plano Workers
-
-O Workers Free tem limite de 10 ms de CPU por requisição; o plano Paid tem limite padrão de 30 segundos. Scrypt foi escolhido para não enfraquecer o hash de senha apenas para tentar caber no plano gratuito. O custo real precisa ser medido no ambiente Cloudflare. **Antes de disponibilizar o login por senha no Free, devemos substituir esse fluxo por Cloudflare Access ou um provedor externo**, em vez de reduzir parâmetros criptográficos abaixo do recomendado.
-
-Antes de disponibilizar publicamente, ainda precisamos configurar proteção contra tentativas repetidas de login e revisar limites operacionais para o uso esperado.
+A proteção do Worker no painel é obrigatória para produção. Não deixe uma URL alternativa de Worker/preview acessível sem Access.

@@ -5,4 +5,6 @@ interface Env {
   ASSETS: Fetcher;
   APP_TIME_ZONE?: string;
   APP_ORIGIN?: string;
+  ACCESS_TEAM_DOMAIN?: string;
+  ACCESS_AUD?: string;
 }
