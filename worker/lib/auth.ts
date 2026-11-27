@@ -1,31 +1,16 @@
-import { requireAccessIdentity } from './access';
-import { HttpError } from './http';
-
+import { verifyJwt } from "./crypto";
+import { HttpError } from "./http";
 export interface AuthenticatedUser {
-  id: string;
-  name: string;
-  email: string;
-  weightKg: number;
-  heightCm: number;
-  dailyGoalMl: number;
+  id: string; name: string; email: string; weightKg: number; heightCm: number; dailyGoalMl: number;
 }
-
-export async function requireAuthenticatedUser(
-  request: Request,
-  env: Env,
-): Promise<AuthenticatedUser> {
-  const identity = await requireAccessIdentity(request, env);
+export async function requireAuthenticatedUser(request: Request, env: Env): Promise<AuthenticatedUser> {
+  const header = request.headers.get("Authorization");
+  if (!header?.startsWith("Bearer ")) throw new HttpError(401, "AUTH_REQUIRED", "Entre na sua conta para continuar.");
+  const payload = await verifyJwt(env.JWT_SECRET, header.slice(7).trim());
+  if (!payload) throw new HttpError(401, "INVALID_TOKEN", "Sua sessão expirou. Entre novamente.");
   const user = await env.DB.prepare(
-    'SELECT id, name, email, weight_kg AS weightKg, height_cm AS heightCm, ' +
-    'daily_goal_ml AS dailyGoalMl FROM users WHERE access_sub = ? LIMIT 1',
-  ).bind(identity.sub).first<AuthenticatedUser>();
-
-  if (!user) {
-    throw new HttpError(
-      403,
-      'PROFILE_REQUIRED',
-      'Complete seu cadastro para acessar os recursos do Hydratation.',
-    );
-  }
+    "SELECT id, name, email, weight_kg AS weightKg, height_cm AS heightCm, daily_goal_ml AS dailyGoalMl FROM users WHERE id = ? LIMIT 1"
+  ).bind(payload.sub).first<AuthenticatedUser>();
+  if (!user) throw new HttpError(401, "USER_NOT_FOUND", "Conta não encontrada.");
   return user;
 }
