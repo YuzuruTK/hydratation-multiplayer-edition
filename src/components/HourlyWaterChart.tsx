@@ -18,16 +18,10 @@ function smoothLine(points: { x: number; y: number }[]) {
   return points.reduce((path, point, index) => {
     if (index === 0) return `M ${point.x} ${point.y}`;
     const previous = points[index - 1];
-    const before = points[Math.max(0, index - 2)];
-    const after = points[Math.min(points.length - 1, index + 1)];
-    const control1 = {
-      x: previous.x + (point.x - before.x) / 6,
-      y: previous.y + (point.y - before.y) / 6,
-    };
-    const control2 = {
-      x: point.x - (after.x - previous.x) / 6,
-      y: point.y - (after.y - previous.y) / 6,
-    };
+    const deltaY = point.y - previous.y;
+    // Keep each cubic segment inside its endpoints so the cumulative curve never dips.
+    const control1 = { x: previous.x + (point.x - previous.x) / 3, y: previous.y + deltaY / 3 };
+    const control2 = { x: point.x - (point.x - previous.x) / 3, y: point.y - deltaY / 3 };
     return `${path} C ${control1.x} ${control1.y}, ${control2.x} ${control2.y}, ${point.x} ${point.y}`;
   }, '');
 }
@@ -36,11 +30,12 @@ export default function HourlyWaterChart({ logs }: HourlyWaterChartProps) {
   const hourlyTotals = Array.from({ length: 24 }, () => 0);
   for (const log of logs) hourlyTotals[new Date(log.consumedAt).getHours()] += log.amountMl;
 
-  const total = hourlyTotals.reduce((sum, amount) => sum + amount, 0);
-  const peakAmount = Math.max(...hourlyTotals);
-  const peakHour = hourlyTotals.indexOf(peakAmount);
-  const scaleMax = Math.max(250, Math.ceil(peakAmount / 250) * 250);
-  const points = hourlyTotals.map((amount, hour) => ({
+  const cumulativeTotals = hourlyTotals.map((amount, hour) =>
+    hourlyTotals.slice(0, hour + 1).reduce((sum, value) => sum + value, 0),
+  );
+  const total = cumulativeTotals[cumulativeTotals.length - 1];
+  const scaleMax = Math.max(250, Math.ceil(total / 250) * 250);
+  const points = cumulativeTotals.map((amount, hour) => ({
     x: LEFT + (hour / 23) * PLOT_WIDTH,
     y: TOP + PLOT_HEIGHT - (amount / scaleMax) * PLOT_HEIGHT,
   }));
@@ -52,10 +47,10 @@ export default function HourlyWaterChart({ logs }: HourlyWaterChartProps) {
     <div className="hourly-chart-card">
       <div className="hourly-chart-summary">
         <strong>{total.toLocaleString('pt-BR')} <span>ml</span></strong>
-        {total > 0 && <span className="hourly-chart-peak">Maior consumo · {String(peakHour).padStart(2, '0')}h ({peakAmount.toLocaleString('pt-BR')} ml)</span>}
+        <span className="hourly-chart-peak">Acumulado ao longo do dia</span>
       </div>
       <div className="hourly-chart-visual">
-        <svg className="hourly-line-chart" viewBox={`0 0 ${WIDTH} ${HEIGHT}`} role="img" aria-label="Consumo de água por hora, hoje">
+        <svg className="hourly-line-chart" viewBox={`0 0 ${WIDTH} ${HEIGHT}`} role="img" aria-label="Água ingerida acumulada ao longo do dia, hoje">
           <defs>
             <linearGradient id="hourly-chart-area" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="var(--color-primary)" stopOpacity=".24" />
@@ -73,9 +68,9 @@ export default function HourlyWaterChart({ logs }: HourlyWaterChartProps) {
           })}
           <path d={areaPath} fill="url(#hourly-chart-area)" />
           <path d={linePath} className="hourly-chart-line" />
-          {points.map((point, hour) => hourlyTotals[hour] > 0 ? (
+          {points.map((point, hour) => cumulativeTotals[hour] > 0 ? (
             <circle key={hour} cx={point.x} cy={point.y} r="4" className="hourly-chart-point">
-              <title>{String(hour).padStart(2, '0')}h · {hourlyTotals[hour].toLocaleString('pt-BR')} ml</title>
+              <title>{String(hour).padStart(2, '0')}h · {cumulativeTotals[hour].toLocaleString('pt-BR')} ml acumulados</title>
             </circle>
           ) : null)}
           {[0, 4, 8, 12, 16, 20, 23].map((hour) => (
