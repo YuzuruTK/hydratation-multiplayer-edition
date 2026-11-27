@@ -396,7 +396,7 @@ function App() {
               <select aria-label="Tema visual" value={theme} onChange={(event) => setTheme(event.target.value as ThemeName)}>
                 <option value="ocean">Ocean</option>
                 <option value="midnight">Midnight</option>
-                <option value="ocean-green">Ocean Green</option>
+                <option value="ocean-green">Ocean Green · Osaka Jade</option>
                 <option value="dracula">Dracula</option>
               </select>
             </label>
