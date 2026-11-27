@@ -46,7 +46,7 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
           <>
             <path className="vessel-outline" d="M22 28 H118 L77 94 V157 H63 V94 Z" />
             <g clipPath={`url(#${clipId}-shape)`}>
-              <rect className="vessel-water" x="20" y={157 - 1.25 * fill} width="100" height={1.25 * fill + 4} fill={`url(#${clipId}-water)`} />
+              <rect className="vessel-water" x="20" y={94 - 0.66 * fill} width="100" height={0.66 * fill + 4} fill={`url(#${clipId}-water)`} />
               <path className="vessel-water-shine" d="M35 70 Q70 63 105 70" />
             </g>
             <path className="vessel-stem" d="M70 94 V157 M48 169 H92" />
