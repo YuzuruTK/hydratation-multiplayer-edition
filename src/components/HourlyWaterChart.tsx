@@ -68,7 +68,7 @@ export default function HourlyWaterChart({ logs }: HourlyWaterChartProps) {
           })}
           <path d={areaPath} fill="url(#hourly-chart-area)" />
           <path d={linePath} className="hourly-chart-line" />
-          {points.map((point, hour) => cumulativeTotals[hour] > 0 ? (
+          {points.map((point, hour) => hourlyTotals[hour] > 0 ? (
             <circle key={hour} cx={point.x} cy={point.y} r="4" className="hourly-chart-point">
               <title>{String(hour).padStart(2, '0')}h · {cumulativeTotals[hour].toLocaleString('pt-BR')} ml acumulados</title>
             </circle>
