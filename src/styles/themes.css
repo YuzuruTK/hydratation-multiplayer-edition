@@ -167,3 +167,22 @@
   --color-progress-track-overlay: rgba(98, 184, 237, .2);
   --color-success-glow: rgba(91, 208, 181, .16);
 }
+
+/* Ocean Green: calm botanical palette with a potion vessel. */
+[data-theme='ocean-green'] {
+  color-scheme: light;
+  --color-background:#f3f8f4; --color-surface:#ffffff; --color-surface-soft:#f8fcf8; --color-surface-muted:#edf5ef; --color-surface-raised:#ffffff;
+  --color-text:#24483c; --color-text-secondary:#527568; --color-text-muted:#8da79a; --color-text-subtle:#a7b9ad;
+  --color-border:#dfece3; --color-border-soft:#edf4ef; --color-border-strong:#cfe2d4;
+  --color-primary:#429b76; --color-primary-strong:#328760; --color-primary-hover:#287a55; --color-primary-muted:#70bd98; --color-primary-soft:#e4f3e9; --color-primary-softer:#eff8f1; --color-primary-border:#d3eadb; --color-primary-contrast:#ffffff;
+  --color-success:#258b72; --color-success-soft:#e6f6ef; --color-danger:#d56e79; --color-danger-soft:#fff0f0; --color-warning:#c99a42; --color-warning-soft:#fff4d8; --color-purple:#8d88ce; --color-purple-soft:#f1f0ff;
+  --color-water-start:#a8e8bb; --color-water-mid:#5fc58e; --color-water-end:#258b68; --color-progress-track:#dfece3;
+  --color-hero-start:#e6f6e9; --color-hero-mid:#e2f3e8; --color-hero-end:#eaf7ef;
+  --color-overlay:rgba(31,67,50,.32); --color-glass-surface:rgba(255,255,255,.38); --color-glass-edge:rgba(255,255,255,.92);
+  --shadow-card-color:rgba(37,91,63,.07); --shadow-soft-color:rgba(37,87,59,.035); --color-shadow-overlay:rgba(34,71,48,.2);
+  --color-surface-overlay:rgba(255,255,255,.68); --color-header-overlay:rgba(255,255,255,.8);
+  --color-glass-highlight:rgba(255,255,255,.38); --color-glass-highlight-soft:rgba(255,255,255,.08); --color-glass-overlay:rgba(255,255,255,.22); --color-glass-edge-soft:rgba(255,255,255,.58); --color-glass-edge-strong:rgba(255,255,255,.82);
+  --color-primary-border-strong:rgba(69,166,117,.55); --color-primary-glow:rgba(80,170,115,.12); --color-primary-glow-soft:rgba(95,178,120,.04); --color-primary-glow-faint:rgba(95,178,120,.025);
+  --color-primary-shadow:rgba(55,143,95,.18); --color-primary-shadow-strong:rgba(55,143,95,.24); --color-primary-shadow-soft:rgba(61,137,95,.13);
+  --color-progress-track-overlay:rgba(105,186,136,.2); --color-success-glow:rgba(72,180,130,.1);
+}
