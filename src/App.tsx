@@ -351,15 +351,7 @@ function App() {
             <Trophy size={19} /> <span>Ranking</span><span className="nav-pill">Ao vivo</span>
           </button>
         </nav>
-        <div className="sidebar-bottom">
-          <div className="side-tip">
-            <div className="tip-icon"><Sparkles size={17} /></div>
-            <strong>Um lembrete gentil</strong>
-            <p>Não precisa ser perfeito. Cada gole já conta.</p>
-          </div>
-          <button type="button" className="nav-item logout-button" onClick={logout}><LogOut size={18} /><span>Sair da conta</span></button>
-          <span className="sidebar-version">HYDRATATION · DEMO</span>
-        </div>
+
       </aside>
 
       <div className="app-main">
@@ -367,7 +359,7 @@ function App() {
           <div className="topbar-date"><CalendarDays size={17} /><span>{dateFormatter.format(today)}</span></div>
           <div className="topbar-user">
             <div className="avatar">{getInitials(state.user.name)}</div>
-            <div className="topbar-user-copy"><strong>{state.user.name}</strong><span>Seu espaço</span></div>
+            <div className="topbar-user-copy"><strong>{state.user.name}</strong></div>
             <button type="button" className="icon-button topbar-logout" aria-label="Sair" onClick={logout}><LogOut size={17} /></button>
           </div>
         </header>
@@ -377,18 +369,15 @@ function App() {
             <>
               <div className="page-heading">
                 <div>
-                  <span className="eyebrow">{dateFormatter.format(today).toUpperCase()}</span>
-                  <h1>{getGreeting()}, {greetingName} <span className="heading-wave">✦</span></h1>
-                  <p>Que tal mais um gole para deixar o dia mais leve?</p>
+                  <h1>{getGreeting()}, {greetingName}</h1>
                 </div>
-                <button type="button" className="button button-soft" onClick={openGoalModal}><Settings2 size={17} /> Ajustar meta</button>
+                <button type="button" className="button button-soft" onClick={openGoalModal}><Settings2 size={17} /> Meta diária</button>
               </div>
 
               <section className="hero-grid">
                 <div className="hydration-card">
                   <div className="hydration-card-copy">
-                    <span className="card-kicker"><span className="kicker-dot" /> SEU PROGRESSO DE HOJE</span>
-                    <h2>Você está indo<br /><span>muito bem!</span></h2>
+                    <span className="card-kicker"><span className="kicker-dot" /> HOJE</span>
                     <div className="consumed-amount">{formatMl(totalToday)}</div>
                     <div className="goal-caption">de {formatMl(goal)} da sua meta diária</div>
                     <div className="progress-track"><div className="progress-fill" style={{ width: Math.min(progress, 100) + '%' }} /></div>
@@ -405,21 +394,12 @@ function App() {
                   </div>
                 </div>
 
-                <div className="goal-side-card">
-                  <div className="goal-side-top"><div className="goal-icon"><Target size={20} /></div><span>Meta diária</span></div>
-                  <strong>{formatMl(goal)}</strong>
-                  <p>Uma meta para acompanhar seu ritmo, sem pressão.</p>
-                  <div className="goal-side-divider" />
-                  <div className="goal-mini-row"><span>Consumo de hoje</span><b>{formatMl(totalToday)}</b></div>
-                  <div className="goal-mini-row"><span>Falta completar</span><b className="remaining-value">{formatMl(remaining)}</b></div>
-                  <button type="button" className="text-link" onClick={openGoalModal}>Personalizar minha meta <ChevronRight size={15} /></button>
-                </div>
+
               </section>
 
               <section className="content-section">
                 <div className="section-heading">
-                  <div><span className="eyebrow">SEM COMPLICAÇÃO</span><h2>Hora de beber água</h2><p>Escolha o recipiente que você usou.</p></div>
-                  <span className="section-side-note"><Droplets size={16} /> Registro rápido</span>
+                  <h2>Registrar água</h2>
                 </div>
                 <div className="container-grid">
                   {state.containers.map((container) => (
@@ -444,8 +424,8 @@ function App() {
 
               <section className="content-section activity-section">
                 <div className="section-heading activity-heading">
-                  <div><span className="eyebrow">SEU DIA EM PEQUENOS GOLES</span><h2>Atividade de hoje</h2></div>
-                  <span className="activity-count">{todayLogs.length} {todayLogs.length === 1 ? 'registro' : 'registros'}</span>
+                  <h2>Registros de hoje</h2>
+                  <span className="activity-count">{todayLogs.length}</span>
                 </div>
                 {todayLogs.length === 0 ? (
                   <div className="empty-state">
@@ -469,7 +449,7 @@ function App() {
           ) : (
             <section className="ranking-page">
               <div className="page-heading">
-                <div><span className="eyebrow">UM GOLE DE CADA VEZ, JUNTOS</span><h1>Ranking <span className="heading-wave">✦</span></h1><p>Uma competição saudável para incentivar bons hábitos.</p></div>
+                <div><h1>Ranking</h1></div>
                 <button type="button" className="button button-soft" onClick={refreshRanking}><RefreshCw size={16} className={refreshing ? 'spin' : ''} /> Atualizar</button>
               </div>
               <div className="ranking-toolbar">
@@ -481,23 +461,8 @@ function App() {
                 <span className="ranking-period-note"><CalendarDays size={14} /> {rankingPeriod === 'day' ? shortDateFormatter.format(today) : rankingPeriod === 'week' ? 'Segunda a domingo' : 'Mês atual'}</span>
               </div>
 
-              <div className="podium">
-                {[sortedRanking[1], sortedRanking[0], sortedRanking[2]].map((entry, index) => {
-                  const place = index === 1 ? 1 : index === 0 ? 2 : 3;
-                  const amount = rankingPeriod === 'day' ? entry.day : rankingPeriod === 'week' ? entry.week : entry.month;
-                  return (
-                    <div className={'podium-item podium-place-' + place} key={entry.id}>
-                      <div className="podium-avatar-wrap"><div className={'podium-avatar avatar-place-' + place}>{getInitials(entry.name)}</div><span className="podium-medal">{place === 1 ? '♛' : place === 2 ? '②' : '③'}</span></div>
-                      <strong className="podium-name">{entry.name}{entry.isYou ? ' (você)' : ''}</strong>
-                      <span className="podium-amount">{formatMl(amount)}</span>
-                      <div className="podium-step"><span>{place}</span></div>
-                    </div>
-                  );
-                })}
-              </div>
-
               <div className="ranking-table-card">
-                <div className="ranking-table-heading"><div><h2>Classificação geral</h2><p>Somatório de água registrada por cada pessoa.</p></div><span className="people-count"><UserRound size={15} /> {sortedRanking.length} pessoas</span></div>
+                <div className="ranking-table-heading"><h2>Classificação</h2><span className="people-count"><UserRound size={15} /> {sortedRanking.length} pessoas</span></div>
                 <div className="ranking-table">
                   {sortedRanking.map((entry, index) => {
                     const amount = rankingPeriod === 'day' ? entry.day : rankingPeriod === 'week' ? entry.week : entry.month;
