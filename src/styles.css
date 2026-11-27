@@ -295,18 +295,18 @@ h1, h2, h3, strong,
 }
 
 
-/* Hourly hydration chart */
+/* Hourly hydration line chart */
 .hourly-chart-card{padding:20px 22px 15px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);box-shadow:var(--shadow-soft)}
-.hourly-chart-summary{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:18px}
+.hourly-chart-summary{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:8px}
 .hourly-chart-summary>strong{color:var(--color-text);font-size:24px;font-weight:700;letter-spacing:-.6px}
 .hourly-chart-summary>strong span{color:var(--color-text-muted);font-size:12px;font-weight:500;letter-spacing:0}
 .hourly-chart-peak{color:var(--color-text-muted);font-size:11px;text-align:right}
-.hourly-chart{display:grid;grid-template-columns:repeat(24,minmax(0,1fr));align-items:end;gap:5px;height:124px}
-.hourly-chart-column{display:flex;min-width:0;height:100%;flex-direction:column;align-items:center}
-.hourly-chart-bar-track{display:flex;width:100%;height:calc(100% - 18px);align-items:end;overflow:hidden;background:var(--color-progress-track);border-radius:5px 5px 2px 2px}
-.hourly-chart-bar{width:100%;min-height:0;background:var(--color-primary-soft);border-radius:5px 5px 2px 2px;transition:height var(--duration-normal) ease,background var(--duration-normal) ease}
-.hourly-chart-bar.has-value{min-height:3px;background:var(--color-primary)}
-.hourly-chart-label{height:18px;padding-top:6px;color:var(--color-text-muted);font-size:9px;line-height:1}
+.hourly-chart-visual{width:100%;min-width:0}
+.hourly-line-chart{display:block;width:100%;height:auto;overflow:visible}
+.hourly-chart-gridline{stroke:var(--color-border);stroke-width:1;stroke-dasharray:4 6;opacity:.8}
+.hourly-chart-y-label,.hourly-chart-x-label{fill:var(--color-text-muted);font-family:var(--font-body);font-size:11px;font-weight:500}
+.hourly-chart-line{fill:none;stroke:var(--color-primary);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 3px 5px var(--color-primary-shadow))}
+.hourly-chart-point{fill:var(--color-surface);stroke:var(--color-primary);stroke-width:3}
 .hourly-chart-empty{margin:5px 0 0;color:var(--color-text-muted);font-size:12px;text-align:center}
 .activity-edit{display:inline-flex;width:28px;height:28px;flex:0 0 auto;align-items:center;justify-content:center;color:var(--color-text-muted);background:transparent;border:0;border-radius:var(--radius-sm);cursor:pointer;transition:color var(--duration-fast),background var(--duration-fast)}
 .activity-edit:hover{color:var(--color-primary);background:var(--color-primary-soft)}
