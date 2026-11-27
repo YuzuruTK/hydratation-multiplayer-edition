@@ -11,6 +11,7 @@ import {
   GlassWater,
   LogOut,
   Pencil,
+  Palette,
   Plus,
   RefreshCw,
   Settings2,
@@ -25,6 +26,7 @@ import {
 import WaterGlass from './components/WaterGlass';
 import { loadState, saveState } from './lib/storage';
 import type { ContainerKind, PersistedState, User, WaterContainer, WaterLog } from './types';
+import { useTheme, type ThemeName } from './theme/ThemeProvider';
 
 type MainScreen = 'home' | 'ranking';
 type RankingPeriod = 'day' | 'week' | 'month';
@@ -87,6 +89,7 @@ interface RankingEntry {
 }
 
 function App() {
+  const { theme, setTheme } = useTheme();
   const [state, setState] = useState<PersistedState>(loadState);
   const [screen, setScreen] = useState<MainScreen>('home');
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
@@ -360,6 +363,13 @@ function App() {
           <div className="topbar-user">
             <div className="avatar">{getInitials(state.user.name)}</div>
             <div className="topbar-user-copy"><strong>{state.user.name}</strong></div>
+            <label className="theme-control">
+              <Palette size={15} aria-hidden="true" />
+              <select aria-label="Tema visual" value={theme} onChange={(event) => setTheme(event.target.value as ThemeName)}>
+                <option value="ocean">Ocean</option>
+                <option value="midnight">Midnight</option>
+              </select>
+            </label>
             <button type="button" className="icon-button topbar-logout" aria-label="Sair" onClick={logout}><LogOut size={17} /></button>
           </div>
         </header>
