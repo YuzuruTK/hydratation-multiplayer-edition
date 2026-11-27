@@ -1,6 +1,7 @@
 import type { PersistedState, WaterContainer } from '../types';
 
-const STORAGE_KEY = 'hydratation-demo-v1';
+const STORAGE_KEY = 'hydration-demo-v1';
+const LEGACY_STORAGE_KEY = 'hydratation-demo-v1';
 
 export const defaultContainers: WaterContainer[] = [
   { id: 'glass-200', name: 'Copo', amountMl: 200, kind: 'glass' },
@@ -17,16 +18,30 @@ const initialState: PersistedState = {
 
 export function loadState(): PersistedState {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const currentRaw = localStorage.getItem(STORAGE_KEY);
+    const legacyRaw = currentRaw ? null : localStorage.getItem(LEGACY_STORAGE_KEY);
+    const raw = currentRaw ?? legacyRaw;
     if (!raw) return initialState;
 
     const saved = JSON.parse(raw) as Partial<PersistedState>;
-    return {
+    const restored: PersistedState = {
       user: saved.user ?? null,
       goalMl: Number(saved.goalMl) > 0 ? Number(saved.goalMl) : initialState.goalMl,
       containers: Array.isArray(saved.containers) ? saved.containers : defaultContainers,
       logs: Array.isArray(saved.logs) ? saved.logs : [],
     };
+
+    // Move existing data from the misspelled key without losing the current user's demo state.
+    if (!currentRaw && legacyRaw) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(restored));
+        localStorage.removeItem(LEGACY_STORAGE_KEY);
+      } catch {
+        // Keep the restored state usable even when localStorage cannot be migrated.
+      }
+    }
+
+    return restored;
   } catch {
     return initialState;
   }
