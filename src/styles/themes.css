@@ -168,44 +168,44 @@
   --color-success-glow: rgba(91, 208, 181, .16);
 }
 
-/* Ocean Green (Jove Jonovski VS Code theme): deep teal editor background, sea-glass text and vivid green accents. */
+/* Ocean Green follows Omarchy Osaka Jade (Justikun): jade accent, muted sage foreground, deep forest surfaces. */
 [data-theme='ocean-green'] {
   color-scheme: dark;
-  --color-background:#111D1E; --color-surface:#172526; --color-surface-soft:#162426; --color-surface-muted:#142122; --color-surface-raised:#1b2b2c;
-  --color-text:#639CAA; --color-text-secondary:#80B0B9; --color-text-muted:#49737E; --color-text-subtle:#3C7E8E;
-  --color-border:#263b3d; --color-border-soft:#1e3032; --color-border-strong:#355052;
-  --color-primary:#19D08A; --color-primary-strong:#17C281; --color-primary-hover:#49E0A5; --color-primary-muted:#66DDB0; --color-primary-soft:#1D5942; --color-primary-softer:#18392f; --color-primary-border:#28684f; --color-primary-contrast:#111D1E;
-  --color-success:#829E60; --color-success-soft:#253729; --color-danger:#A47381; --color-danger-soft:#3b2830; --color-warning:#AFA05F; --color-warning-soft:#3c3727; --color-purple:#9580B2; --color-purple-soft:#30283a;
-  --color-water-start:#72E7B8; --color-water-mid:#19D08A; --color-water-end:#1D5942; --color-progress-track:#263b3d;
-  --color-hero-start:#172d2b; --color-hero-mid:#172a2b; --color-hero-end:#1a3030;
-  --color-rank-gold:#E2C875; --color-rank-gold-soft:#403b2a; --color-rank-gold-border:#665b35; --color-rank-silver:#A8C6CA; --color-rank-silver-soft:#2a3b3e; --color-rank-silver-border:#40565a; --color-rank-bronze:#C99A80; --color-rank-bronze-soft:#3e302c; --color-rank-bronze-border:#60483d;
-  --color-overlay:rgba(5,14,15,.72); --color-glass-surface:rgba(99,156,170,.13); --color-glass-edge:rgba(99,156,170,.5);
-  --shadow-soft:0 8px 24px rgba(0,0,0,.18); --shadow-card:0 12px 35px rgba(0,0,0,.24); --shadow-raised:0 18px 42px rgba(0,0,0,.32);
-  --shadow-card-color:rgba(0,0,0,.24); --shadow-soft-color:rgba(0,0,0,.16); --color-shadow-overlay:rgba(0,0,0,.42);
-  --color-surface-overlay:rgba(23,37,38,.9); --color-header-overlay:rgba(17,29,30,.92);
-  --color-glass-highlight:rgba(255,255,255,.18); --color-glass-highlight-soft:rgba(255,255,255,.04); --color-glass-overlay:rgba(99,156,170,.1); --color-glass-edge-soft:rgba(99,156,170,.28); --color-glass-edge-strong:rgba(99,156,170,.58);
-  --color-primary-border-strong:rgba(25,208,138,.55); --color-primary-glow:rgba(25,208,138,.2); --color-primary-glow-soft:rgba(25,208,138,.1); --color-primary-glow-faint:rgba(25,208,138,.05);
-  --color-primary-shadow:rgba(25,208,138,.2); --color-primary-shadow-strong:rgba(25,208,138,.3); --color-primary-shadow-soft:rgba(25,208,138,.14);
-  --color-progress-track-overlay:rgba(25,208,138,.2); --color-success-glow:rgba(130,158,96,.16);
+  --color-background:#111c18; --color-surface:#17251e; --color-surface-soft:#1b2c23; --color-surface-muted:#0c1512; --color-surface-raised:#23372b;
+  --color-text:#c1c497; --color-text-secondary:#d6d5bc; --color-text-muted:#81b8a8; --color-text-subtle:#53685b;
+  --color-border:#32473b; --color-border-soft:#23372b; --color-border-strong:#509475;
+  --color-primary:#509475; --color-primary-strong:#549e6a; --color-primary-hover:#63b07a; --color-primary-muted:#81b8a8; --color-primary-soft:#23372b; --color-primary-softer:#1b2c23; --color-primary-border:#32473b; --color-primary-contrast:#f7e8b2;
+  --color-success:#549e6a; --color-success-soft:#1d3528; --color-danger:#ff5345; --color-danger-soft:#3b211f; --color-warning:#e5c736; --color-warning-soft:#39351d; --color-purple:#d2689c; --color-purple-soft:#392635;
+  --color-water-start:#8cd3cb; --color-water-mid:#2dd5b7; --color-water-end:#509475; --color-progress-track:#32473b;
+  --color-hero-start:#1b2c23; --color-hero-mid:#17251e; --color-hero-end:#111c18;
+  --color-rank-gold:#e5c736; --color-rank-gold-soft:#39351d; --color-rank-gold-border:#665d2b; --color-rank-silver:#c1c497; --color-rank-silver-soft:#2a3830; --color-rank-silver-border:#43564a; --color-rank-bronze:#a2734b; --color-rank-bronze-soft:#382b21; --color-rank-bronze-border:#604a35;
+  --color-overlay:rgba(9,15,13,.76); --color-glass-surface:rgba(193,196,151,.1); --color-glass-edge:rgba(129,184,168,.42);
+  --shadow-soft:0 8px 24px rgba(0,0,0,.2); --shadow-card:0 12px 35px rgba(0,0,0,.28); --shadow-raised:0 18px 42px rgba(0,0,0,.34);
+  --shadow-card-color:rgba(0,0,0,.25); --shadow-soft-color:rgba(0,0,0,.17); --color-shadow-overlay:rgba(0,0,0,.45);
+  --color-surface-overlay:rgba(23,37,30,.92); --color-header-overlay:rgba(17,28,24,.94);
+  --color-glass-highlight:rgba(247,232,178,.16); --color-glass-highlight-soft:rgba(247,232,178,.04); --color-glass-overlay:rgba(193,196,151,.08); --color-glass-edge-soft:rgba(129,184,168,.24); --color-glass-edge-strong:rgba(129,184,168,.55);
+  --color-primary-border-strong:rgba(80,148,117,.6); --color-primary-glow:rgba(80,148,117,.22); --color-primary-glow-soft:rgba(80,148,117,.12); --color-primary-glow-faint:rgba(80,148,117,.06);
+  --color-primary-shadow:rgba(80,148,117,.22); --color-primary-shadow-strong:rgba(80,148,117,.32); --color-primary-shadow-soft:rgba(80,148,117,.16);
+  --color-progress-track-overlay:rgba(80,148,117,.2); --color-success-glow:rgba(84,158,106,.18);
 }
 
-/* Dracula: official classic palette adapted to the app's semantic tokens. */
+/* Dracula Classic palette, mapped to semantic UI tokens. */
 [data-theme='dracula'] {
   color-scheme: dark;
-  --color-background:#282A36; --color-surface:#303341; --color-surface-soft:#343746; --color-surface-muted:#2d2f3d; --color-surface-raised:#3a3c4b;
-  --color-text:#F8F8F2; --color-text-secondary:#E2E2DC; --color-text-muted:#B8B8C2; --color-text-subtle:#8E90A1;
-  --color-border:#44475A; --color-border-soft:#393c4e; --color-border-strong:#56596d;
-  --color-primary:#BD93F9; --color-primary-strong:#CBA8FF; --color-primary-hover:#D7BEFF; --color-primary-muted:#D0B2FF; --color-primary-soft:#403653; --color-primary-softer:#363044; --color-primary-border:#5d4b79; --color-primary-contrast:#282A36;
-  --color-success:#50FA7B; --color-success-soft:#294438; --color-danger:#FF5555; --color-danger-soft:#4a303b; --color-warning:#F1FA8C; --color-warning-soft:#4a4935; --color-purple:#BD93F9; --color-purple-soft:#403653;
-  --color-water-start:#8BE9FD; --color-water-mid:#BD93F9; --color-water-end:#6272A4; --color-progress-track:#44475A;
-  --color-hero-start:#343447; --color-hero-mid:#343144; --color-hero-end:#303644;
-  --color-rank-gold:#F1FA8C; --color-rank-gold-soft:#4a4935; --color-rank-gold-border:#6b694b; --color-rank-silver:#D6D6E0; --color-rank-silver-soft:#3c3e4e; --color-rank-silver-border:#55586b; --color-rank-bronze:#FFB86C; --color-rank-bronze-soft:#493b35; --color-rank-bronze-border:#6b5141;
-  --color-overlay:rgba(15,15,24,.72); --color-glass-surface:rgba(248,248,242,.1); --color-glass-edge:rgba(248,248,242,.4);
-  --shadow-soft:0 8px 24px rgba(0,0,0,.16); --shadow-card:0 12px 35px rgba(0,0,0,.22); --shadow-raised:0 18px 42px rgba(0,0,0,.3);
-  --shadow-card-color:rgba(0,0,0,.22); --shadow-soft-color:rgba(0,0,0,.14); --color-shadow-overlay:rgba(0,0,0,.4);
-  --color-surface-overlay:rgba(48,51,65,.9); --color-header-overlay:rgba(40,42,54,.92);
+  --color-background:#282a36; --color-surface:#343746; --color-surface-soft:#303341; --color-surface-muted:#21222c; --color-surface-raised:#424450;
+  --color-text:#f8f8f2; --color-text-secondary:#e8e8e2; --color-text-muted:#6272a4; --color-text-subtle:#44475a;
+  --color-border:#44475a; --color-border-soft:#393c4e; --color-border-strong:#6272a4;
+  --color-primary:#bd93f9; --color-primary-strong:#d6acff; --color-primary-hover:#ff79c6; --color-primary-muted:#cba8ff; --color-primary-soft:#403653; --color-primary-softer:#343044; --color-primary-border:#5d4b79; --color-primary-contrast:#282a36;
+  --color-success:#50fa7b; --color-success-soft:#294438; --color-danger:#ff5555; --color-danger-soft:#4a303b; --color-warning:#f1fa8c; --color-warning-soft:#4a4935; --color-purple:#bd93f9; --color-purple-soft:#403653;
+  --color-water-start:#8be9fd; --color-water-mid:#bd93f9; --color-water-end:#6272a4; --color-progress-track:#44475a;
+  --color-hero-start:#343746; --color-hero-mid:#303341; --color-hero-end:#282a36;
+  --color-rank-gold:#f1fa8c; --color-rank-gold-soft:#4a4935; --color-rank-gold-border:#6b694b; --color-rank-silver:#d6d6e0; --color-rank-silver-soft:#3c3e4e; --color-rank-silver-border:#55586b; --color-rank-bronze:#ffb86c; --color-rank-bronze-soft:#493b35; --color-rank-bronze-border:#6b5141;
+  --color-overlay:rgba(15,15,24,.76); --color-glass-surface:rgba(248,248,242,.1); --color-glass-edge:rgba(248,248,242,.4);
+  --shadow-soft:0 8px 24px rgba(0,0,0,.18); --shadow-card:0 12px 35px rgba(0,0,0,.24); --shadow-raised:0 18px 42px rgba(0,0,0,.32);
+  --shadow-card-color:rgba(0,0,0,.24); --shadow-soft-color:rgba(0,0,0,.16); --color-shadow-overlay:rgba(0,0,0,.42);
+  --color-surface-overlay:rgba(52,55,70,.92); --color-header-overlay:rgba(40,42,54,.94);
   --color-glass-highlight:rgba(248,248,242,.2); --color-glass-highlight-soft:rgba(248,248,242,.05); --color-glass-overlay:rgba(248,248,242,.1); --color-glass-edge-soft:rgba(248,248,242,.28); --color-glass-edge-strong:rgba(248,248,242,.55);
-  --color-primary-border-strong:rgba(189,147,249,.55); --color-primary-glow:rgba(189,147,249,.2); --color-primary-glow-soft:rgba(189,147,249,.1); --color-primary-glow-faint:rgba(189,147,249,.05);
-  --color-primary-shadow:rgba(189,147,249,.2); --color-primary-shadow-strong:rgba(189,147,249,.3); --color-primary-shadow-soft:rgba(189,147,249,.14);
-  --color-progress-track-overlay:rgba(189,147,249,.2); --color-success-glow:rgba(80,250,123,.15);
+  --color-primary-border-strong:rgba(189,147,249,.58); --color-primary-glow:rgba(189,147,249,.22); --color-primary-glow-soft:rgba(189,147,249,.12); --color-primary-glow-faint:rgba(189,147,249,.06);
+  --color-primary-shadow:rgba(189,147,249,.22); --color-primary-shadow-strong:rgba(189,147,249,.32); --color-primary-shadow-soft:rgba(189,147,249,.16);
+  --color-progress-track-overlay:rgba(189,147,249,.2); --color-success-glow:rgba(80,250,123,.18);
 }
