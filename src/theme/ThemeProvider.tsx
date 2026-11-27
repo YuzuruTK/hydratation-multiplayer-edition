@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useState, type PropsWithChildren } from 'react';
 
-export type ThemeName = 'ocean' | 'midnight';
+export type ThemeName = 'ocean' | 'midnight' | 'ocean-green';
 
 interface ThemeContextValue {
   theme: ThemeName;
@@ -13,7 +13,7 @@ const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 function readInitialTheme(): ThemeName {
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
-    const theme: ThemeName = stored === 'midnight' ? 'midnight' : 'ocean';
+    const theme: ThemeName = stored === 'midnight' || stored === 'ocean-green' ? stored : 'ocean';
     document.documentElement.dataset.theme = theme;
     return theme;
   } catch {
