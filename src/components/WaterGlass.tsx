@@ -51,7 +51,7 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
       aria-label={consumedMl + ' de ' + goalMl + ' mililitros'}
       role="img"
     >
-      <svg className="hydration-vessel-art" viewBox={isDragonade ? "0 0 768 2048" : "0 0 140 200"} aria-hidden="true">
+      <svg className="hydration-vessel-art" viewBox={isDragonade ? "-32 -85 832 2218" : "0 0 140 200"} aria-hidden="true">
         <defs>
           <linearGradient id={`${clipId}-water`} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="var(--color-water-start)" />
