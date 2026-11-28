@@ -104,6 +104,9 @@ function App() {
   const RankingIcon = themeConfig.icons.ranking;
   const ActivityIcon = themeConfig.icons.activity;
   const GoalIcon = themeConfig.icons.goal;
+  const GlassIcon = themeConfig.icons.containerGlass;
+  const BottleIcon = themeConfig.icons.containerBottle;
+  const CupIcon = themeConfig.icons.containerCup;
   const [state, setState] = useState<PersistedState>(loadState);
   const [screen, setScreen] = useState<MainScreen>('home');
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
@@ -379,7 +382,7 @@ function App() {
   }
 
   return (
-    <div className="app-shell">
+    <div className="app-shell" data-icon-treatment={themeConfig.visual.iconTreatment} data-surface-treatment={themeConfig.visual.surfaceTreatment}>
       <aside className="sidebar">
         <BrandMark />
         <div className="sidebar-label">MENU</div>
@@ -438,7 +441,7 @@ function App() {
                     <div className="visual-sparkle sparkle-a">✦</div>
                     <div className="visual-sparkle sparkle-b">✧</div>
                     <WaterGlass progress={progress} consumedMl={totalToday} goalMl={goal} />
-                    <div className="glass-label"><Waves size={14} /> cada gole conta</div>
+                    <div className="glass-label"><ActivityIcon size={14} strokeWidth={themeConfig.iconStrokeWidth} /> cada gole conta</div>
                   </div>
                 </div>
 
@@ -565,9 +568,9 @@ function App() {
                 <label className="field-label">Capacidade (ml)<input type="number" min="1" max="5000" value={containerAmount} onChange={(event) => setContainerAmount(event.target.value)} required /></label>
                 <div className="field-label">Tipo de recipiente
                   <div className="kind-options">
-                    <button type="button" className={containerKind === 'glass' ? 'kind-option selected' : 'kind-option'} onClick={() => setContainerKind('glass')}><GlassWater size={20} /> Copo</button>
-                    <button type="button" className={containerKind === 'bottle' ? 'kind-option selected' : 'kind-option'} onClick={() => setContainerKind('bottle')}><CupSoda size={20} /> Garrafa</button>
-                    <button type="button" className={containerKind === 'cup' ? 'kind-option selected' : 'kind-option'} onClick={() => setContainerKind('cup')}><Waves size={20} /> Outro</button>
+                    <button type="button" className={containerKind === 'glass' ? 'kind-option selected' : 'kind-option'} onClick={() => setContainerKind('glass')}><GlassIcon size={20} strokeWidth={themeConfig.iconStrokeWidth} /> Copo</button>
+                    <button type="button" className={containerKind === 'bottle' ? 'kind-option selected' : 'kind-option'} onClick={() => setContainerKind('bottle')}><BottleIcon size={20} strokeWidth={themeConfig.iconStrokeWidth} /> Garrafa</button>
+                    <button type="button" className={containerKind === 'cup' ? 'kind-option selected' : 'kind-option'} onClick={() => setContainerKind('cup')}><CupIcon size={20} strokeWidth={themeConfig.iconStrokeWidth} /> Outro</button>
                   </div>
                 </div>
                 <p className="field-hint">Alterar ou excluir um recipiente não modifica os registros anteriores.</p>
