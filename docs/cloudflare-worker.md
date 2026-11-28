@@ -14,8 +14,8 @@ Frontend React e API são servidos pelo mesmo Worker; D1 guarda contas e dados d
 
 ## Configuração
 
-Worker: `hydratation-multiplayer-edition`
-D1: `hydratation-multiplayer-edition`
+Worker: `hydration-multiplayer-edition`
+D1: `hydratation-multiplayer-edition` (nome legado do recurso já provisionado no Cloudflare; mantido para preservar a conexão com o banco existente)
 Binding D1: `DB`
 Binding assets: `ASSETS`
 Fuso: `America/Sao_Paulo`

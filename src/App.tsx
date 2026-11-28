@@ -2,33 +2,31 @@ import { useEffect, useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
 import {
   ArrowUpRight,
-  CupSoda,
   CalendarDays,
   Check,
   ChevronRight,
   Clock3,
-  Droplets,
-  GlassWater,
   LogOut,
   Pencil,
+  Palette,
   Plus,
   RefreshCw,
   Settings2,
   Sparkles,
-  Target,
   Trash2,
-  Trophy,
   UserRound,
-  Waves,
   X,
 } from 'lucide-react';
 import WaterGlass from './components/WaterGlass';
+import HourlyWaterChart from './components/HourlyWaterChart';
 import { loadState, saveState } from './lib/storage';
 import type { ContainerKind, PersistedState, User, WaterContainer, WaterLog } from './types';
+import { useTheme, type ThemeName } from './theme/ThemeProvider';
+import { THEME_CONFIG, THEME_NAMES } from './theme/themeConfig';
 
 type MainScreen = 'home' | 'ranking';
 type RankingPeriod = 'day' | 'week' | 'month';
-type ModalType = 'container' | 'goal' | null;
+type ModalType = 'container' | 'goal' | 'log' | null;
 
 const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
   weekday: 'long',
@@ -58,21 +56,35 @@ function getInitials(name: string): string {
   return name.trim().split(/\s+/).slice(0, 2).map((part) => part[0]?.toUpperCase() ?? '').join('');
 }
 
+function formatTime(date: Date): string {
+  return String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
+}
+
 function formatMl(amount: number): string {
   return numberFormatter.format(Math.round(amount)) + ' ml';
 }
 
 function ContainerIcon({ kind }: { kind: ContainerKind }) {
-  if (kind === 'bottle') return <CupSoda size={21} strokeWidth={1.8} />;
-  if (kind === 'cup') return <Waves size={21} strokeWidth={1.8} />;
-  return <GlassWater size={21} strokeWidth={1.8} />;
+  const { config } = useTheme();
+  const Icon = kind === 'bottle'
+    ? config.icons.containerBottle
+    : kind === 'cup'
+      ? config.icons.containerCup
+      : config.icons.containerGlass;
+
+  return <Icon size={21} strokeWidth={config.iconStrokeWidth} />;
 }
 
 function BrandMark() {
+  const { config } = useTheme();
+  const BrandIcon = config.icons.brand;
+
   return (
     <div className="brand-lockup">
-      <div className="brand-mark"><Droplets size={22} fill="currentColor" /></div>
-      <div><strong>hydratation</strong><span>um gole de cada vez</span></div>
+      <div className="brand-mark">
+        <BrandIcon size={22} fill={config.fillBrandIcon ? 'currentColor' : 'none'} strokeWidth={config.iconStrokeWidth} />
+      </div>
+      <div><strong>hydration</strong><span>um gole de cada vez</span></div>
     </div>
   );
 }
@@ -87,6 +99,14 @@ interface RankingEntry {
 }
 
 function App() {
+  const { theme, setTheme, config: themeConfig } = useTheme();
+  const HomeIcon = themeConfig.icons.home;
+  const RankingIcon = themeConfig.icons.ranking;
+  const ActivityIcon = themeConfig.icons.activity;
+  const GoalIcon = themeConfig.icons.goal;
+  const GlassIcon = themeConfig.icons.containerGlass;
+  const BottleIcon = themeConfig.icons.containerBottle;
+  const CupIcon = themeConfig.icons.containerCup;
   const [state, setState] = useState<PersistedState>(loadState);
   const [screen, setScreen] = useState<MainScreen>('home');
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
@@ -97,6 +117,8 @@ function App() {
   const [authError, setAuthError] = useState('');
   const [modal, setModal] = useState<ModalType>(null);
   const [editingContainer, setEditingContainer] = useState<WaterContainer | null>(null);
+  const [editingLog, setEditingLog] = useState<WaterLog | null>(null);
+  const [logTimeInput, setLogTimeInput] = useState('');
   const [containerName, setContainerName] = useState('');
   const [containerAmount, setContainerAmount] = useState('350');
   const [containerKind, setContainerKind] = useState<ContainerKind>('glass');
@@ -130,7 +152,7 @@ function App() {
     const demoUser: User = {
       id: 'demo-user',
       name: 'Você',
-      email: 'demo@hydratation.app',
+      email: 'demo@hydration.app',
       weightKg: 70,
       heightCm: 170,
     };
@@ -185,6 +207,27 @@ function App() {
       consumedAt: new Date().toISOString(),
     };
     updateState((current) => ({ ...current, logs: [...current.logs, newLog] }));
+  }
+
+  function openEditLog(log: WaterLog) {
+    setEditingLog(log);
+    setLogTimeInput(formatTime(new Date(log.consumedAt)));
+    setModal('log');
+  }
+
+  function saveLogTime(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!editingLog || logTimeInput.length !== 5 || logTimeInput[2] !== ':') return;
+    const [hours, minutes] = logTimeInput.split(':').map(Number);
+    if (!Number.isInteger(hours) || hours < 0 || hours > 23 || !Number.isInteger(minutes) || minutes < 0 || minutes > 59) return;
+    const consumedAt = new Date(editingLog.consumedAt);
+    consumedAt.setHours(hours, minutes, 0, 0);
+    updateState((current) => ({
+      ...current,
+      logs: current.logs.map((log) => log.id === editingLog.id ? { ...log, consumedAt: consumedAt.toISOString() } : log),
+    }));
+    setEditingLog(null);
+    setModal(null);
   }
 
   function deleteLog(logId: string) {
@@ -339,16 +382,16 @@ function App() {
   }
 
   return (
-    <div className="app-shell">
+    <div className="app-shell" data-icon-treatment={themeConfig.visual.iconTreatment} data-surface-treatment={themeConfig.visual.surfaceTreatment}>
       <aside className="sidebar">
         <BrandMark />
         <div className="sidebar-label">MENU</div>
         <nav className="side-nav" aria-label="Navegação principal">
           <button type="button" className={screen === 'home' ? 'nav-item active' : 'nav-item'} onClick={() => setScreen('home')}>
-            <GlassWater size={19} /> <span>Minha hidratação</span>
+            <HomeIcon size={19} strokeWidth={themeConfig.iconStrokeWidth} /> <span>Minha hidratação</span>
           </button>
           <button type="button" className={screen === 'ranking' ? 'nav-item active' : 'nav-item'} onClick={() => setScreen('ranking')}>
-            <Trophy size={19} /> <span>Ranking</span><span className="nav-pill">Ao vivo</span>
+            <RankingIcon size={19} strokeWidth={themeConfig.iconStrokeWidth} /> <span>Ranking</span><span className="nav-pill">Ao vivo</span>
           </button>
         </nav>
 
@@ -360,6 +403,14 @@ function App() {
           <div className="topbar-user">
             <div className="avatar">{getInitials(state.user.name)}</div>
             <div className="topbar-user-copy"><strong>{state.user.name}</strong></div>
+            <label className="theme-control">
+              <Palette size={15} aria-hidden="true" />
+              <select aria-label="Tema visual" value={theme} onChange={(event) => setTheme(event.target.value as ThemeName)}>
+                {THEME_NAMES.map((themeName) => (
+                  <option key={themeName} value={themeName}>{THEME_CONFIG[themeName].selectorLabel}</option>
+                ))}
+              </select>
+            </label>
             <button type="button" className="icon-button topbar-logout" aria-label="Sair" onClick={logout}><LogOut size={17} /></button>
           </div>
         </header>
@@ -390,11 +441,16 @@ function App() {
                     <div className="visual-sparkle sparkle-a">✦</div>
                     <div className="visual-sparkle sparkle-b">✧</div>
                     <WaterGlass progress={progress} consumedMl={totalToday} goalMl={goal} />
-                    <div className="glass-label"><Waves size={14} /> cada gole conta</div>
+                    <div className="glass-label"><ActivityIcon size={14} strokeWidth={themeConfig.iconStrokeWidth} /> cada gole conta</div>
                   </div>
                 </div>
 
 
+              </section>
+
+              <section className="content-section hourly-chart-section">
+                <div className="section-heading"><h2>Consumo por hora</h2><span className="section-side-note">ml registrados hoje</span></div>
+                <HourlyWaterChart logs={todayLogs} />
               </section>
 
               <section className="content-section">
@@ -429,16 +485,17 @@ function App() {
                 </div>
                 {todayLogs.length === 0 ? (
                   <div className="empty-state">
-                    <div className="empty-icon"><GlassWater size={24} /></div>
+                    <div className="empty-icon"><HomeIcon size={24} strokeWidth={themeConfig.iconStrokeWidth} /></div>
                     <div><strong>Seu primeiro gole está esperando!</strong><p>Quando você registrar água, ela vai aparecer aqui.</p></div>
                   </div>
                 ) : (
                   <div className="activity-list">
                     {todayLogs.map((log) => (
                       <div className="activity-row" key={log.id}>
-                        <div className="activity-icon"><Droplets size={18} /></div>
+                        <div className="activity-icon"><ActivityIcon size={18} strokeWidth={themeConfig.iconStrokeWidth} /></div>
                         <div className="activity-copy"><strong>{log.containerName}</strong><span><Clock3 size={13} /> {new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit' }).format(new Date(log.consumedAt))}</span></div>
                         <strong className="activity-amount">+{formatMl(log.amountMl)}</strong>
+                        <button type="button" className="activity-edit" aria-label={'Editar horário de ' + log.containerName} onClick={() => openEditLog(log)}><Pencil size={15} /></button>
                         <button type="button" className="activity-delete" aria-label="Remover registro" onClick={() => deleteLog(log.id)}><Trash2 size={15} /></button>
                       </div>
                     ))}
@@ -483,21 +540,27 @@ function App() {
             </section>
           )}
         </main>
-        <footer className="app-footer"><span>Feito com cuidado <span className="footer-heart">♥</span></span><span>HYDRATATION · PROTÓTIPO</span></footer>
+        <footer className="app-footer"><span>Feito com cuidado <span className="footer-heart">♥</span></span><span>HYDRATION · PROTÓTIPO</span></footer>
       </div>
 
       {modal && (
         <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setModal(null); }}>
           <div className="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
             <div className="modal-heading">
-              <div><span className="eyebrow">{modal === 'goal' ? 'SEU RITMO, SUAS REGRAS' : 'PERSONALIZE SEU DIA'}</span><h2 id="modal-title">{modal === 'goal' ? 'Ajustar meta diária' : editingContainer ? 'Editar recipiente' : 'Novo recipiente'}</h2></div>
+              <div><span className="eyebrow">{modal === 'goal' ? 'SEU RITMO, SUAS REGRAS' : modal === 'log' ? 'AJUSTE SEU REGISTRO' : 'PERSONALIZE SEU DIA'}</span><h2 id="modal-title">{modal === 'goal' ? 'Ajustar meta diária' : modal === 'log' ? 'Editar horário' : editingContainer ? 'Editar recipiente' : 'Novo recipiente'}</h2></div>
               <button type="button" className="icon-button" aria-label="Fechar" onClick={() => setModal(null)}><X size={19} /></button>
             </div>
             {modal === 'goal' ? (
               <form className="modal-form" onSubmit={saveGoal}>
                 <label className="field-label">Sua meta diária (ml)<input type="number" min="300" max="6000" step="50" value={goalInput} onChange={(event) => setGoalInput(event.target.value)} autoFocus /></label>
-                <div className="modal-tip"><Target size={18} /><p>Uma estimativa inicial simples é 35 ml por kg de peso. Você pode ajustar esse valor como preferir; ele não substitui orientação profissional.</p></div>
+                <div className="modal-tip"><GoalIcon size={18} strokeWidth={themeConfig.iconStrokeWidth} /><p>Uma estimativa inicial simples é 35 ml por kg de peso. Você pode ajustar esse valor como preferir; ele não substitui orientação profissional.</p></div>
                 <div className="modal-actions"><button type="button" className="button button-outline" onClick={() => setModal(null)}>Cancelar</button><button type="submit" className="button button-primary"><Check size={16} /> Salvar meta</button></div>
+              </form>
+            ) : modal === 'log' ? (
+              <form className="modal-form" onSubmit={saveLogTime}>
+                <label className="field-label">Horário do consumo<input type="time" value={logTimeInput} onChange={(event) => setLogTimeInput(event.target.value)} required autoFocus /></label>
+                <p className="field-hint">A quantidade e a data do registro serão mantidas; apenas o horário será alterado.</p>
+                <div className="modal-actions"><button type="button" className="button button-outline" onClick={() => setModal(null)}>Cancelar</button><button type="submit" className="button button-primary"><Check size={16} /> Salvar horário</button></div>
               </form>
             ) : (
               <form className="modal-form" onSubmit={saveContainer}>
@@ -505,9 +568,9 @@ function App() {
                 <label className="field-label">Capacidade (ml)<input type="number" min="1" max="5000" value={containerAmount} onChange={(event) => setContainerAmount(event.target.value)} required /></label>
                 <div className="field-label">Tipo de recipiente
                   <div className="kind-options">
-                    <button type="button" className={containerKind === 'glass' ? 'kind-option selected' : 'kind-option'} onClick={() => setContainerKind('glass')}><GlassWater size={20} /> Copo</button>
-                    <button type="button" className={containerKind === 'bottle' ? 'kind-option selected' : 'kind-option'} onClick={() => setContainerKind('bottle')}><CupSoda size={20} /> Garrafa</button>
-                    <button type="button" className={containerKind === 'cup' ? 'kind-option selected' : 'kind-option'} onClick={() => setContainerKind('cup')}><Waves size={20} /> Outro</button>
+                    <button type="button" className={containerKind === 'glass' ? 'kind-option selected' : 'kind-option'} onClick={() => setContainerKind('glass')}><GlassIcon size={20} strokeWidth={themeConfig.iconStrokeWidth} /> Copo</button>
+                    <button type="button" className={containerKind === 'bottle' ? 'kind-option selected' : 'kind-option'} onClick={() => setContainerKind('bottle')}><BottleIcon size={20} strokeWidth={themeConfig.iconStrokeWidth} /> Garrafa</button>
+                    <button type="button" className={containerKind === 'cup' ? 'kind-option selected' : 'kind-option'} onClick={() => setContainerKind('cup')}><CupIcon size={20} strokeWidth={themeConfig.iconStrokeWidth} /> Outro</button>
                   </div>
                 </div>
                 <p className="field-hint">Alterar ou excluir um recipiente não modifica os registros anteriores.</p>

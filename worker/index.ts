@@ -12,7 +12,7 @@ async function authenticated(request: Request, env: Env, handler: (user: Authent
 async function handleApi(request: Request, env: Env): Promise<Response> {
   const pathname = new URL(request.url).pathname;
   assertSameOrigin(request, env);
-  if (pathname === '/api/health') return request.method === 'GET' ? json({ status: 'ok', service: 'hydratation-api' }) : methodNotAllowed(['GET']);
+  if (pathname === '/api/health') return request.method === 'GET' ? json({ status: 'ok', service: 'hydration-api' }) : methodNotAllowed(['GET']);
   if (pathname === '/api/auth/session') return request.method === 'GET' ? getAuthSession(request, env) : methodNotAllowed(['GET']);
   if (pathname === '/api/auth/register') return request.method === 'POST' ? register(request, env) : methodNotAllowed(['POST']);
   if (pathname === '/api/auth/login') return request.method === 'POST' ? login(request, env) : methodNotAllowed(['POST']);
