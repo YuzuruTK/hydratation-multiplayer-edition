@@ -259,3 +259,14 @@
   stroke-linecap:round;
   stroke-linejoin:round;
 }
+
+[data-theme='dragonade'] .dragonade-cap {
+  fill:#3b2418;
+  stroke:#1a100b;
+  stroke-width:2;
+}
+[data-theme='dragonade'] .dragonade-label {
+  fill:#e9a13d;
+  stroke:#7b321b;
+  stroke-width:2;
+}
