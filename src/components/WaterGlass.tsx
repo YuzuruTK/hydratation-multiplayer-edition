@@ -68,7 +68,7 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
           <path className="vessel-highlight" d="M54 47 C42 69 35 88 35 105" />
         ) : isPotion ? (
           <>
-            <path className="potion-neck" d="M57 18 H83 V49 L96 62 C111 77 119 94 119 116 V137 C119 153 107 163 91 163 H49 C33 163 21 153 21 137 V116 C21 94 29 77 44 62 L57 49 Z" />
+            <path className="potion-neck" d="M55 18 H85 V57 C107 66 120 86 120 111 C120 140 98 162 70 162 C42 162 20 140 20 111 C20 86 33 66 55 57 Z" />
             <rect className="potion-cork" x="54" y="7" width="32" height="15" rx="4" />
             <path className="potion-highlight" d="M43 91 C35 107 35 129 40 141 Q43 148 50 149" />
             <circle className="potion-bubble" cx="91" cy="122" r="4" />
