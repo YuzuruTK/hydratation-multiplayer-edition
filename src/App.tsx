@@ -398,6 +398,7 @@ function App() {
                 <option value="midnight">Midnight</option>
                 <option value="ocean-green">Ocean Green · Osaka Jade</option>
                 <option value="dracula">Dracula</option>
+                <option value="dragonade">Dragonade</option>
               </select>
             </label>
             <button type="button" className="icon-button topbar-logout" aria-label="Sair" onClick={logout}><LogOut size={17} /></button>
