@@ -18,8 +18,8 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
 
   const dropPath = 'M70 8 C60 27 23 66 23 105 C23 139 43 161 70 161 C97 161 117 139 117 105 C117 66 80 27 70 8 Z';
   const rocksPath = 'M28 34 H112 L106 153 Q105 164 94 164 H46 Q35 164 34 153 Z';
-  // Fireball bottle silhouette: red-cap neck, sloping shoulders, broad squared body.
-  const dragonadePath = 'M48 24 H92 V53 Q92 62 104 70 L126 91 Q135 99 135 114 V174 Q135 192 117 192 H23 Q5 192 5 174 V114 Q5 99 14 91 L36 70 Q48 62 48 53 Z';
+  // Same tall Fireball-inspired silhouette used by the standalone bottle artwork.
+  const dragonadePath = 'M292 165 H476 L471 350 Q470 392 495 421 L535 466 Q556 488 582 507 L665 568 Q735 620 744 700 V1847 Q744 1940 660 1952 Q384 1985 108 1952 Q24 1940 24 1847 V700 Q33 620 103 568 L186 507 Q212 488 233 466 L273 421 Q298 392 297 350 Z';
   // Round, classic RPG potion flask with a narrow neck and bulbous glass body.
   const potionPath = 'M55 18 H85 V57 C107 66 120 86 120 111 C120 140 98 162 70 162 C42 162 20 140 20 111 C20 86 33 66 55 57 Z';
   // Elegant fantasy chalice: wide bowl, narrow stem, and a broad foot.
@@ -33,7 +33,7 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
       : isChalice
         ? 103 - 0.64 * fill
         : isDragonade
-          ? 192 - 0.88 * fill
+          ? 1952 - 12.52 * fill
           : 153 - 1.05 * fill;
   const waterHeight = isDrop
     ? 1.35 * fill + 4
@@ -42,7 +42,7 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
       : isChalice
         ? 0.64 * fill + 4
         : isDragonade
-          ? 0.88 * fill + 4
+          ? 12.52 * fill + 4
           : 1.05 * fill + 4;
 
   return (
@@ -51,7 +51,7 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
       aria-label={consumedMl + ' de ' + goalMl + ' mililitros'}
       role="img"
     >
-      <svg className="hydration-vessel-art" viewBox="0 0 140 200" aria-hidden="true">
+      <svg className="hydration-vessel-art" viewBox={isDragonade ? "0 0 768 2048" : "0 0 140 200"} aria-hidden="true">
         <defs>
           <linearGradient id={`${clipId}-water`} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="var(--color-water-start)" />
@@ -62,13 +62,10 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
             <path d={vesselPath} />
           </clipPath>
         </defs>
-        <path className={isDragonade ? "vessel-outline dragonade-bottle" : "vessel-outline"} d={vesselPath} />
+        {!isDragonade && <path className="vessel-outline" d={vesselPath} />}
         <g clipPath={`url(#${clipId}-shape)`}>
-          <rect className="vessel-water" x="18" y={waterTop} width="104" height={waterHeight} fill={`url(#${clipId}-water)`} />
-          <path
-            className="vessel-water-shine"
-            d={isDrop ? 'M30 106 Q50 99 70 106 T110 106' : isPotion ? 'M25 112 Q70 103 115 112' : isChalice ? 'M34 65 Q70 59 106 65' : isDragonade ? 'M36 100 Q70 93 104 100' : 'M36 86 Q70 79 104 86'}
-          />
+          <rect className="vessel-water" x={isDragonade ? 24 : 18} y={waterTop} width={isDragonade ? 720 : 104} height={waterHeight} fill={`url(#${clipId}-water)`} />
+          {!isDragonade && <path className="vessel-water-shine" d={isDrop ? 'M30 106 Q50 99 70 106 T110 106' : isPotion ? 'M25 112 Q70 103 115 112' : isChalice ? 'M34 65 Q70 59 106 65' : 'M36 86 Q70 79 104 86'} />}
         </g>
         {isDrop ? (
           <path className="vessel-highlight" d="M54 47 C42 69 35 88 35 105" />
@@ -90,15 +87,10 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
           </>
         ) : isDragonade ? (
           <>
-            {/* Mascote Fireball isolado da arte original, em silhueta preta. */}
-            <image
-              href="/assets/fireball-devil.svg"
-              x="32"
-              y="99"
-              width="76"
-              height="73.2"
-              preserveAspectRatio="xMidYMid meet"
-            />
+            {/* Garrafa transparente: apenas contornos pretos; o líquido indica o progresso. */}
+            <image href="/assets/dragonade-bottle.svg" x="0" y="0" width="768" height="2048" />
+            {/* Mascote preto, sem fundo, centralizado no rótulo. */}
+            <image href="/assets/fireball-devil.svg" x="134" y="1010" width="500" height="500" />
           </>
         ) : (
           <>
@@ -108,7 +100,7 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
             <circle className="drink-garnish" cx="103" cy="20" r="8" />
           </>
         )}
-        <ellipse className="vessel-shadow" cx="70" cy="183" rx="42" ry="7" />
+        {!isDragonade && <ellipse className="vessel-shadow" cx="70" cy="183" rx="42" ry="7" />}
       </svg>
     </div>
   );
