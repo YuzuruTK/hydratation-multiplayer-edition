@@ -18,8 +18,8 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
 
   const dropPath = 'M70 8 C60 27 23 66 23 105 C23 139 43 161 70 161 C97 161 117 139 117 105 C117 66 80 27 70 8 Z';
   const rocksPath = 'M28 34 H112 L106 153 Q105 164 94 164 H46 Q35 164 34 153 Z';
-  // Dragonade Fireball-inspired bottle with a narrow neck and rounded shoulders.
-  const dragonadePath = 'M48 12 H92 V52 L108 70 V150 Q108 164 94 164 H46 Q32 164 32 150 V70 L48 52 Z';
+  // Fireball-style whisky bottle: short neck, sloped shoulders, broad rounded body.
+  const dragonadePath = 'M52 18 H88 V48 C88 54 94 59 101 65 Q112 74 112 88 V148 Q112 166 94 166 H46 Q28 166 28 148 V88 Q28 74 39 65 C46 59 52 54 52 48 Z';
   // Round, classic RPG potion flask with a narrow neck and bulbous glass body.
   const potionPath = 'M55 18 H85 V57 C107 66 120 86 120 111 C120 140 98 162 70 162 C42 162 20 140 20 111 C20 86 33 66 55 57 Z';
   // Elegant fantasy chalice: wide bowl, narrow stem, and a broad foot.
@@ -90,15 +90,13 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
           </>
         ) : isDragonade ? (
           <>
-            <path className="vessel-rim" d="M47 12 H93 M48 52 H92" />
-            <path className="vessel-highlight" d="M43 75 L40 143 Q40 153 49 157" />
-            <path className="dragonade-devil" d="M48 91 C39 81 38 70 40 64 C49 66 56 72 59 78 C66 75 74 75 81 78 C84 72 91 66 100 64 C102 70 101 81 92 91 C99 101 99 115 92 125 C86 134 77 139 70 139 C63 139 54 134 48 125 C41 115 41 101 48 91 Z" />
-            <path className="dragonade-devil-face" d="M53 104 Q60 99 66 105 L63 111 Z M74 105 Q80 99 87 104 L77 111 Z M59 121 Q70 126 81 121 Q77 132 70 132 Q63 132 59 121 Z" />
-            <path className="dragonade-devil-horn" d="M47 87 L37 78 L39 96 M93 87 L103 78 L101 96" />
-            <path className="dragonade-lime" d="M88 45 L105 27 Q113 34 109 43 L97 51 Z" />
-            <path className="dragonade-lime-detail" d="M97 34 L103 44" />
-            <circle className="dragonade-sprite-bubble" cx="58" cy="146" r="2.5" />
-            <circle className="dragonade-sprite-bubble" cx="83" cy="148" r="2" />
+            <path className="vessel-rim" d="M52 18 H88 M52 48 H88" />
+            <rect className="dragonade-cap" x="49" y="7" width="42" height="15" rx="3" />
+            <path className="vessel-highlight" d="M40 82 L38 143 Q38 155 49 159" />
+            <rect className="dragonade-label" x="36" y="78" width="68" height="66" rx="5" />
+            <path className="dragonade-devil" d="M48 105 C40 96 40 88 42 83 C50 85 56 90 59 95 C66 92 74 92 81 95 C84 90 90 85 98 83 C100 88 100 96 92 105 C98 113 97 123 91 130 C85 136 77 140 70 140 C63 140 55 136 49 130 C43 123 42 113 48 105 Z" />
+            <path className="dragonade-devil-face" d="M54 114 Q60 109 66 115 L63 120 Z M74 115 Q80 109 86 114 L77 120 Z M59 127 Q70 132 81 127 Q77 136 70 136 Q63 136 59 127 Z" />
+            <path className="dragonade-devil-horn" d="M47 102 L40 95 L42 108 M93 102 L100 95 L98 108" />
           </>
         ) : (
           <>
