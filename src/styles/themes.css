@@ -209,3 +209,32 @@
   --color-primary-shadow:rgba(189,147,249,.22); --color-primary-shadow-strong:rgba(189,147,249,.32); --color-primary-shadow-soft:rgba(189,147,249,.16);
   --color-progress-track-overlay:rgba(189,147,249,.2); --color-success-glow:rgba(80,250,123,.18);
 }
+
+
+/* Dragonade: Fireball cinnamon-whisky amber, with restrained Sprite-white and lemon accents. */
+[data-theme='dragonade'] {
+  color-scheme: dark;
+  --color-background:#211711; --color-surface:#302016; --color-surface-soft:#38251a; --color-surface-muted:#1a120e; --color-surface-raised:#493020;
+  --color-text:#f6e6d1; --color-text-secondary:#dfc3a2; --color-text-muted:#b58b67; --color-text-subtle:#78563d;
+  --color-border:#5a3925; --color-border-soft:#422b1c; --color-border-strong:#a95122;
+  --color-primary:#d86b24; --color-primary-strong:#f18a3b; --color-primary-hover:#ff9d4d; --color-primary-muted:#e78a43; --color-primary-soft:#4a2a19; --color-primary-softer:#382319; --color-primary-border:#78411f; --color-primary-contrast:#fff3e4;
+  --color-success:#b7c94a; --color-success-soft:#35391d; --color-danger:#e65a45; --color-danger-soft:#48251d; --color-warning:#e9ad4c; --color-warning-soft:#49351e; --color-purple:#c48a68; --color-purple-soft:#402a22;
+  --color-water-start:#f5b45b; --color-water-mid:#df792c; --color-water-end:#a94719; --color-progress-track:#5a3925;
+  --color-hero-start:#38251a; --color-hero-mid:#302016; --color-hero-end:#211711;
+  --color-rank-gold:#f5c66e; --color-rank-gold-soft:#49351e; --color-rank-gold-border:#79552a; --color-rank-silver:#e8d9c8; --color-rank-silver-soft:#403126; --color-rank-silver-border:#604a38; --color-rank-bronze:#d99162; --color-rank-bronze-soft:#452b20; --color-rank-bronze-border:#70452e;
+  --color-overlay:rgba(16,10,6,.78); --color-glass-surface:rgba(246,230,209,.08); --color-glass-edge:rgba(246,230,209,.32);
+  --shadow-soft:0 8px 24px rgba(0,0,0,.2); --shadow-card:0 12px 35px rgba(0,0,0,.28); --shadow-raised:0 18px 42px rgba(0,0,0,.36);
+  --shadow-card-color:rgba(0,0,0,.26); --shadow-soft-color:rgba(0,0,0,.18); --color-shadow-overlay:rgba(0,0,0,.46);
+  --color-surface-overlay:rgba(48,32,22,.92); --color-header-overlay:rgba(33,23,17,.94);
+  --color-glass-highlight:rgba(246,230,209,.15); --color-glass-highlight-soft:rgba(246,230,209,.035); --color-glass-overlay:rgba(246,230,209,.07); --color-glass-edge-soft:rgba(246,230,209,.2); --color-glass-edge-strong:rgba(246,230,209,.42);
+  --color-primary-border-strong:rgba(216,107,36,.6); --color-primary-glow:rgba(216,107,36,.22); --color-primary-glow-soft:rgba(216,107,36,.12); --color-primary-glow-faint:rgba(216,107,36,.06);
+  --color-primary-shadow:rgba(216,107,36,.22); --color-primary-shadow-strong:rgba(216,107,36,.32); --color-primary-shadow-soft:rgba(216,107,36,.16);
+  --color-progress-track-overlay:rgba(216,107,36,.2); --color-success-glow:rgba(183,201,74,.16);
+}
+[data-theme='dragonade'] .dragonade-lime {
+  fill:#b7c94a; stroke:#e0e98c; stroke-width:2; stroke-linejoin:round;
+}
+[data-theme='dragonade'] .dragonade-lime-detail {
+  fill:none; stroke:#f5f0d7; stroke-width:1.5; stroke-linecap:round; opacity:.8;
+}
+[data-theme='dragonade'] .dragonade-sprite-bubble { fill:#f4f7e9; opacity:.72; }
