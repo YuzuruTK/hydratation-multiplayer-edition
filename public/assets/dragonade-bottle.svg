@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 2048" role="img" aria-label="Garrafa transparente em traços pretos">
+  <g fill="none" stroke="#000000" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Tampa -->
+    <path stroke-width="7" d="M292 24 Q300 5 326 5 H442 Q468 5 476 24 L489 53 Q494 70 489 91 L481 145 Q477 166 454 170 H314 Q291 166 287 145 L279 91 Q274 70 279 53 Z"/>
+    <path stroke-width="5" d="M288 48 H480 M286 70 H482 M286 92 H482 M290 114 H478 M294 136 H474"/>
+    <!-- Corpo, gargalo e ombros -->
+    <path stroke-width="9" d="M292 165 H476 L471 350 Q470 392 495 421 L535 466 Q556 488 582 507 L665 568 Q735 620 744 700 V1847 Q744 1940 660 1952 Q384 1985 108 1952 Q24 1940 24 1847 V700 Q33 620 103 568 L186 507 Q212 488 233 466 L273 421 Q298 392 297 350 Z"/>
+    <!-- Faixa do gargalo -->
+    <path stroke-width="3" d="M300 238 H468 V365 Q468 390 484 410 L500 430 H268 L284 410 Q300 390 300 365 Z"/>
+    <!-- Rótulo principal -->
+    <path stroke-width="9" d="M112 792 Q135 776 160 786 Q188 775 215 786 Q244 775 272 786 Q301 775 330 786 Q359 775 388 786 Q417 775 446 786 Q475 775 504 786 Q533 775 562 786 Q591 775 620 786 Q649 775 676 798 L680 1702 Q656 1726 628 1717 Q599 1728 570 1717 Q541 1728 512 1717 Q483 1728 454 1717 Q425 1728 396 1717 Q367 1728 338 1717 Q309 1728 280 1717 Q251 1728 222 1717 Q193 1728 164 1717 Q135 1728 108 1705 Z"/>
+    <!-- Base de vidro e reflexos gráficos -->
+    <path stroke-width="18" d="M37 1860 Q40 1922 112 1934 Q384 1970 656 1934 Q728 1922 731 1860"/>
+    <path stroke-width="7" d="M49 1880 Q60 1922 125 1928 Q384 1958 643 1928 Q708 1922 719 1880"/>
+    <path stroke-width="18" d="M57 718 V1832 Q57 1890 106 1905"/>
+    <path stroke-width="10" d="M292 185 H476 M283 196 H485"/>
+    <path stroke-width="8" d="M719 742 V1814 Q719 1866 681 1894"/>
+  </g>
+</svg>
