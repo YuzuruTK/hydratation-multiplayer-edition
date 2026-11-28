@@ -99,8 +99,8 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
               height="73.2"
               preserveAspectRatio="xMidYMid meet"
             />
-          
-          </>        ) : (
+          </>
+        ) : (
           <>
             <path className="vessel-rim" d="M28 34 H112" />
             <path className="vessel-highlight" d="M43 47 L40 139" />
