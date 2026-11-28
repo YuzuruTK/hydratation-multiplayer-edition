@@ -90,27 +90,16 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
           </>
         ) : isDragonade ? (
           <>
-            {/* Red screw cap and the small neck band/logo area. */}
-            <rect className="dragonade-cap" x="44" y="3" width="52" height="24" rx="8" />
-            <path className="dragonade-cap-ridge" d="M46 8 H94 M46 13 H94 M46 18 H94" />
-            <path className="dragonade-neck-band" d="M48 43 H92 V66 H48 Z" />
-            <path className="dragonade-neck-flame" d="M54 54 Q60 45 65 52 Q70 44 76 51 Q82 46 87 55 Q81 54 77 60 Q70 56 64 61 Q59 56 54 54 Z" />
-            <path className="vessel-highlight" d="M39 83 L17 106 Q12 113 12 126 V171 Q12 183 25 186" />
-            <path className="dragonade-label-edge" d="M20 98 Q29 94 36 98 Q48 94 58 98 Q70 94 82 98 Q94 94 105 98 L119 101 L120 177 Q109 181 99 178 Q87 182 75 178 Q62 182 50 178 Q37 182 25 178 Z" />
-            <path className="dragonade-label" d="M24 102 Q32 98 39 102 Q50 98 60 102 Q72 98 83 102 Q95 98 106 102 L115 105 L116 173 Q106 177 96 174 Q84 178 73 174 Q61 178 49 174 Q37 178 27 174 Z" />
-            <text className="dragonade-wordmark" x="70" y="117" textAnchor="middle" textLength="82" lengthAdjust="spacingAndGlyphs">FIREBALL</text>
-            {/* Full-body running devil with flame trail, curled tail and fire breath. */}
-            <path className="dragonade-flame" d="M35 128 Q27 119 20 121 Q26 126 20 131 Q29 130 34 136 L45 137 Q37 132 35 128 Z M48 130 Q41 123 37 125 L43 132 L51 135 Z" />
-            <path className="dragonade-devil" d="M55 131 Q48 124 49 119 L43 114 L45 108 L53 113 L58 120 Q67 117 73 122 L80 119 L85 124 L77 130 L68 132 L65 140 L75 148 L89 150 L93 155 L83 158 L68 155 L56 148 L52 140 Z" />
-            <path className="dragonade-devil" d="M58 137 L49 145 L42 153 L37 151 L43 141 L52 132 Z M67 141 L76 137 L84 139 L88 144 L82 147 L75 145 L69 149 Z" />
-            <path className="dragonade-devil" d="M53 119 L49 110 L44 104 L48 102 L55 107 L60 115 Z M65 120 L70 111 L77 108 L82 111 L77 116 L72 123 Z" />
-            <path className="dragonade-devil-horn" d="M51 114 L47 106 L54 110 M69 114 L76 106 L73 113" />
-            <path className="dragonade-devil-face" d="M55 116 L60 118 L56 120 Z M66 118 L71 116 L68 121 Z M59 124 Q64 127 69 123" />
-            <path className="dragonade-devil-tail" d="M44 151 Q33 151 34 160 Q35 168 43 164 Q47 161 43 158" />
-            <path className="dragonade-devil" d="M57 146 L51 157 L58 162 L68 160 L73 155 L68 152 Z M75 151 L84 158 L82 164 L76 162 L70 157 Z" />
-            <path className="dragonade-wordmark-small" d="M32 169 H108" />
-            <text className="dragonade-small-copy" x="70" y="168" textAnchor="middle">CINNAMON WHISKY</text>
-            <text className="dragonade-small-copy" x="70" y="176" textAnchor="middle">RED HOT</text>
+            {/* Mascote Fireball isolado da arte original, em silhueta preta. */}
+            <image
+              href="/assets/fireball-devil.svg"
+              x="32"
+              y="99"
+              width="76"
+              height="73.2"
+              preserveAspectRatio="xMidYMid meet"
+            />
+          
           </>        ) : (
           <>
             <path className="vessel-rim" d="M28 34 H112" />
