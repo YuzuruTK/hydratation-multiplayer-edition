@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useState, type PropsWithChildren } from 'react';
 
-export type ThemeName = 'ocean' | 'midnight' | 'ocean-green' | 'dracula';
+export type ThemeName = 'ocean' | 'midnight' | 'ocean-green' | 'dracula' | 'dragonade';
 
 interface ThemeContextValue {
   theme: ThemeName;
@@ -13,7 +13,7 @@ const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 function readInitialTheme(): ThemeName {
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
-    const theme: ThemeName = stored === 'midnight' || stored === 'ocean-green' || stored === 'dracula' ? stored : 'ocean';
+    const theme: ThemeName = stored === 'midnight' || stored === 'ocean-green' || stored === 'dracula' || stored === 'dragonade' ? stored : 'ocean';
     document.documentElement.dataset.theme = theme;
     return theme;
   } catch {
@@ -30,7 +30,7 @@ export function ThemeProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     const root = document.documentElement;
     root.dataset.theme = theme;
-    root.style.colorScheme = theme === 'midnight' || theme === 'ocean-green' || theme === 'dracula' ? 'dark' : 'light';
+    root.style.colorScheme = theme === 'midnight' || theme === 'ocean-green' || theme === 'dracula' || theme === 'dragonade' ? 'dark' : 'light';
 
     try {
       window.localStorage.setItem(STORAGE_KEY, theme);
