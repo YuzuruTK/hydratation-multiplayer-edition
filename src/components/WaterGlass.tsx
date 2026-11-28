@@ -14,11 +14,12 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
   const isDrop = theme === 'ocean';
   const isPotion = theme === 'ocean-green';
   const isChalice = theme === 'dracula';
+  const isDragonade = theme === 'dragonade';
 
   const dropPath = 'M70 8 C60 27 23 66 23 105 C23 139 43 161 70 161 C97 161 117 139 117 105 C117 66 80 27 70 8 Z';
   const rocksPath = 'M28 34 H112 L106 153 Q105 164 94 164 H46 Q35 164 34 153 Z';
   // Round, classic RPG potion flask with a narrow neck and bulbous glass body.
-  const potionPath = 'M57 18 H83 V49 L96 62 C111 77 119 94 119 116 V137 C119 153 107 163 91 163 H49 C33 163 21 153 21 137 V116 C21 94 29 77 44 62 L57 49 Z';
+  const potionPath = 'M55 18 H85 V57 C107 66 120 86 120 111 C120 140 98 162 70 162 C42 162 20 140 20 111 C20 86 33 66 55 57 Z';
   // Elegant fantasy chalice: wide bowl, narrow stem, and a broad foot.
   const chalicePath = 'M31 35 H109 C108 65 101 91 83 107 L77 112 V151 H91 Q101 151 101 161 V166 H39 V161 Q39 151 49 151 H63 V112 L57 107 C39 91 32 65 31 35 Z';
 
@@ -80,6 +81,15 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
             <path className="vessel-highlight" d="M43 43 C46 70 53 88 64 98 M73 116 V149" />
             <path className="vessel-highlight" d="M57 108 L70 119 L83 108 M49 160 H91" />
             <path className="vessel-highlight" d="M38 42 H50 M90 42 H102" />
+          </>
+        ) : isDragonade ? (
+          <>
+            <path className="vessel-rim" d="M28 34 H112" />
+            <path className="vessel-highlight" d="M43 47 L40 139" />
+            <path className="dragonade-lime" d="M87 35 L105 18 Q113 25 109 34 L96 42 Z" />
+            <path className="dragonade-lime-detail" d="M96 25 L102 35" />
+            <circle className="dragonade-sprite-bubble" cx="62" cy="119" r="3" />
+            <circle className="dragonade-sprite-bubble" cx="80" cy="132" r="2" />
           </>
         ) : (
           <>
