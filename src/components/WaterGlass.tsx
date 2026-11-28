@@ -33,7 +33,7 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
       : isChalice
         ? 103 - 0.64 * fill
         : isDragonade
-          ? 154 - 0.84 * fill
+          ? 192 - 0.88 * fill
           : 153 - 1.05 * fill;
   const waterHeight = isDrop
     ? 1.35 * fill + 4
@@ -42,7 +42,7 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
       : isChalice
         ? 0.64 * fill + 4
         : isDragonade
-          ? 0.84 * fill + 4
+          ? 0.88 * fill + 4
           : 1.05 * fill + 4;
 
   return (
