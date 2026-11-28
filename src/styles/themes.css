@@ -238,3 +238,24 @@
   fill:none; stroke:#f5f0d7; stroke-width:1.5; stroke-linecap:round; opacity:.8;
 }
 [data-theme='dragonade'] .dragonade-sprite-bubble { fill:#f4f7e9; opacity:.72; }
+
+[data-theme='dragonade'] .dragonade-devil {
+  fill:#a8321d;
+  stroke:#6f2117;
+  stroke-width:2.5;
+  stroke-linejoin:round;
+}
+[data-theme='dragonade'] .dragonade-devil-face {
+  fill:#f8d9a4;
+  stroke:#f8d9a4;
+  stroke-width:1.5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+[data-theme='dragonade'] .dragonade-devil-horn {
+  fill:none;
+  stroke:#6f2117;
+  stroke-width:3;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
