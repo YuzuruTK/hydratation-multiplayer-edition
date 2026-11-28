@@ -48,6 +48,7 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
   return (
     <div
       className={`water-glass-wrap hydration-vessel hydration-vessel--${theme}`}
+      data-vessel-motion={themeConfig.visual.vesselMotion}
       aria-label={consumedMl + ' de ' + goalMl + ' mililitros'}
       role="img"
     >
