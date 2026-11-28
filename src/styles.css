@@ -343,3 +343,6 @@ h1, h2, h3, strong,
 .hydration-vessel--dracula .vessel-rim{fill:none;stroke:var(--color-glass-edge-strong);stroke-width:4;stroke-linecap:round}
 .hydration-vessel--dracula .drink-garnish:last-of-type{fill:var(--color-warning-soft);stroke:var(--color-warning);stroke-width:2}
 .hydration-vessel--dracula .hydration-vessel-art{filter:drop-shadow(0 13px 18px var(--color-primary-shadow-soft))}
+
+/* Dragonade is a transparent bottle drawing with pure-black line art. */
+.hydration-vessel--dragonade .hydration-vessel-art{filter:none}
