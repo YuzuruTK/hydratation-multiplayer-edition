@@ -8,13 +8,13 @@ interface WaterGlassProps {
 }
 
 export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassProps) {
-  const { theme } = useTheme();
+  const { theme, config: themeConfig } = useTheme();
   const fill = Math.max(0, Math.min(progress, 100));
   const clipId = useId();
-  const isDrop = theme === 'ocean';
-  const isPotion = theme === 'ocean-green';
-  const isChalice = theme === 'dracula';
-  const isDragonade = theme === 'dragonade';
+  const isDrop = themeConfig.vessel === 'droplet';
+  const isPotion = themeConfig.vessel === 'potion';
+  const isChalice = themeConfig.vessel === 'chalice';
+  const isDragonade = themeConfig.vessel === 'fireball-bottle';
 
   const dropPath = 'M70 8 C60 27 23 66 23 105 C23 139 43 161 70 161 C97 161 117 139 117 105 C117 66 80 27 70 8 Z';
   const rocksPath = 'M28 34 H112 L106 153 Q105 164 94 164 H46 Q35 164 34 153 Z';
@@ -88,9 +88,20 @@ export default function WaterGlass({ progress, consumedMl, goalMl }: WaterGlassP
         ) : isDragonade ? (
           <>
             {/* Garrafa transparente: apenas contornos pretos; o líquido indica o progresso. */}
-            <image href="/assets/dragonade-bottle.svg" x="0" y="0" width="768" height="2048" />
-            {/* Mascote preto, sem fundo, centralizado no rótulo. */}
-            <image href="/assets/fireball-devil.svg" x="134" y="1010" width="500" height="500" />
+            {themeConfig.artwork?.vesselAsset && (
+              <image href={themeConfig.artwork.vesselAsset} x="0" y="0" width="768" height="2048" />
+            )}
+            {/* Mascote preto e transparente, posicionado pela configuração do tema. */}
+            {themeConfig.artwork?.mascotAsset && themeConfig.artwork.mascotPlacement && (
+              <image
+                href={themeConfig.artwork.mascotAsset}
+                x={themeConfig.artwork.mascotPlacement.x}
+                y={themeConfig.artwork.mascotPlacement.y}
+                width={themeConfig.artwork.mascotPlacement.width}
+                height={themeConfig.artwork.mascotPlacement.height}
+                preserveAspectRatio="xMidYMid meet"
+              />
+            )}
           </>
         ) : (
           <>
