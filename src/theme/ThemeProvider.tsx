@@ -1,10 +1,12 @@
 import { createContext, useCallback, useContext, useEffect, useState, type PropsWithChildren } from 'react';
+import { isThemeName, THEME_CONFIG, type ThemeName } from './themeConfig';
 
-export type ThemeName = 'ocean' | 'midnight' | 'ocean-green' | 'dracula' | 'dragonade';
+export type { ThemeName } from './themeConfig';
 
 interface ThemeContextValue {
   theme: ThemeName;
   setTheme: (theme: ThemeName) => void;
+  config: (typeof THEME_CONFIG)[ThemeName];
 }
 
 const STORAGE_KEY = 'hydration-theme-v1';
@@ -13,7 +15,7 @@ const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 function readInitialTheme(): ThemeName {
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
-    const theme: ThemeName = stored === 'midnight' || stored === 'ocean-green' || stored === 'dracula' || stored === 'dragonade' ? stored : 'ocean';
+    const theme: ThemeName = isThemeName(stored) ? stored : 'ocean';
     document.documentElement.dataset.theme = theme;
     return theme;
   } catch {
@@ -26,11 +28,12 @@ export function ThemeProvider({ children }: PropsWithChildren) {
   const setTheme = useCallback((nextTheme: ThemeName) => {
     setThemeState(nextTheme);
   }, []);
+  const config = THEME_CONFIG[theme];
 
   useEffect(() => {
     const root = document.documentElement;
     root.dataset.theme = theme;
-    root.style.colorScheme = theme === 'midnight' || theme === 'ocean-green' || theme === 'dracula' || theme === 'dragonade' ? 'dark' : 'light';
+    root.style.colorScheme = config.colorScheme;
 
     try {
       window.localStorage.setItem(STORAGE_KEY, theme);
@@ -40,10 +43,10 @@ export function ThemeProvider({ children }: PropsWithChildren) {
 
     const background = window.getComputedStyle(root).getPropertyValue('--color-background').trim();
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', background);
-  }, [theme]);
+  }, [theme, config]);
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
+    <ThemeContext.Provider value={{ theme, setTheme, config }}>
       {children}
     </ThemeContext.Provider>
   );
